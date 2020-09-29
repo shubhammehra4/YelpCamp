@@ -1,0 +1,24 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "Personal Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhammehra4/YelpCamp.git"
+  },
+  "author": "Shubham Mehra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shubhammehra4/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/shubhammehra4/YelpCamp#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1"
+  }
+}
