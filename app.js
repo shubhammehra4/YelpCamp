@@ -1,13 +1,46 @@
-const express = require('express'),
-bodyParser    = require("body-parser"),
-dotenv        = require('dotenv'),
-app           = express();
+const express         = require('express'),
+bodyParser            = require("body-parser"),
+dotenv                = require('dotenv'),
+mongoose              = require("mongoose"),
+flash                 = require("connect-flash"),
+passport              = require("passport"),
+LocalStrategy         = require("passport-local"),
+passportLocalMongoose = require("passport-local-mongoose"),
+cookieParser          = require('cookie-parser'),
+User                  = require("./models/user"),
+app                   = express();
 
-dotenv.config();
-app.use(bodyParser.urlencoded({extended: true}));
-app.set("view engine", "ejs");
-app.use(express.static("public"));
-
+app.config(function () {
+    dotenv.config();
+    app.set("view engine", "ejs");
+    app.use(express.static("public"));
+    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(cookieParser());
+    app.use(flash);
+    app.use(require("express-session")({ secret: "web dev", resave: false, saveUninitialized: false }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+    passport.use(new LocalStrategy(User.authenticate()));
+    passport.use(new RememberMeStrategy(
+        function(token, done) {
+          Token.consume(token, function (err, user) {
+            if (err) { return done(err); }
+            if (!user) { return done(null, false); }
+            return done(null, user);
+          });
+        },
+        function(user, done) {
+          var token = utils.generateToken(64);
+          Token.save(token, { userId: user.id }, function(err) {
+            if (err) { return done(err); }
+            return done(null, token);
+          });
+        }
+      ));
+    app.use(passport.authenticate('remember-me'));
+    passport.serializeUser(User.serializeUser());
+    passport.deserializeUser(User.deserializeUser());    
+});
 
 //**                    Main Routes
 
@@ -26,16 +59,42 @@ app.get("/signup", function (req, res) {
 });
 
 app.post("/signup", function (req, res) {
-    res.send("hello");
+    var newUser ={};
+    User.register(newUser, req.body.password, function (err, user) {
+        if(err){
+            req.flash("error", err.message);           
+            return res.render("/signup");
+        }
+        passport.authenticate("local")(req, res, function () {
+            res.redirect("/");
+        });
+    });
 });
 
 app.get("/login", function name(req, res) {
     res.render("login");
 });
 
-app.post("/login", function (req, res) {
-    res.send("hello");
+app.post("/login", passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), 
+    function(req, res, next) {
+        // issue a remember me cookie if the option was checked
+        if (!req.body.remember_me) { return next(); }
+
+        var token = utils.generateToken(64);
+        Token.save(token, { userId: req.user.id }, function(err) {
+            if (err) { return done(err); }
+            res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 }); // 7 days
+            return next();
+        });
+    }, function (req, res) {
+        res.redirect('/');
 });
+
+app.get("/logout", function (req, res) {
+    res.clearCookie('remember_me');
+    req.logout();
+    res.redirect('/');
+})
 
 //**                    Misc
 
