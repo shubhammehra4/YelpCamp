@@ -1,3 +1,12 @@
 <%- include('partials/header') %>
-
+    <div class="container">
+        <form action="/signup" method="post">
+            <input type="text" name="firstName" placeholder="First Name" required autofocus/>
+            <input type="text" name="lastName" placeholder="Last Name" required/>
+            <input type="text" name="username" placeholder="username" required/>
+            <input type="email" name="email" placeholder="Email"/>
+            <input type="password" name="password" placeholder="password" required>
+            <button>Submit</button>
+        </form>
+    </div>
 <%- include('partials/footer') %> 
