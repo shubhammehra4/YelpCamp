@@ -1,5 +1,24 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/stylesheets/campgrounds.css">
     <div class="jumbotron">
         <h1>Campgrounds</h1>
     </div>
+    <div class="container">
+        <div class="row text-center">
+            <% campgrounds.forEach(function(campground){ %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                            <img src="<%= campground.coverImage %> " style="width:100%">
+                            <div class="caption">
+                                <h4><%= campground.name %> <i class="fa fa-heart" id="icons" aria-hidden="true"></i></h4>
+                            </div>
+                            <p>
+                                <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
+                            </p>
+                    </div>
+                </div> 
+            <% }) %>  
+        </div>
+    </div>
+    
 <%- include('partials/footer') %> 

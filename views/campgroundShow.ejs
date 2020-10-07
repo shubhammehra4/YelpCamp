@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+    <% if(!campground){ %>
+        <div class="container text-center">
+            <p>Not a valid campground</p>
+            <a href="/campgrounds">Go back to Campgrounds</a>
+        </div>
+    <% } else{ %>
+        <h1><%= campground.name %> </h1>
+        <img src="<%= campground.coverImage %> " alt="">
+        <p><%= campground.description %> </p>
+    <% } %>   
+<%- include('partials/footer') %> 

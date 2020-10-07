@@ -3,11 +3,13 @@ bodyParser            = require("body-parser"),
 dotenv                = require('dotenv'),
 mongoose              = require("mongoose"),
 // flash                 = require("connect-flash"),
-// passport              = require("passport"),
-// LocalStrategy         = require("passport-local"),
-// passportLocalMongoose = require("passport-local-mongoose"),
-// cookieParser          = require('cookie-parser'),
+passport              = require("passport"),
+LocalStrategy         = require("passport-local").Strategy,
+// RememberMeStrategy    = require('passport-remember-me').Strategy,
+passportLocalMongoose = require("passport-local-mongoose"),
+cookieParser          = require('cookie-parser'),
 User                  = require("./models/user"),
+Campgrounds           =  require('./models/campgrounds'),
 app                   = express();
 
 
@@ -16,12 +18,12 @@ mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useCreateIndex
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(cookieParser());
+app.use(cookieParser());
 // app.use(flash);
-// app.use(require("express-session")({ secret: "web dev", resave: false, saveUninitialized: false }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new LocalStrategy(User.authenticate()));
+app.use(require("express-session")({ secret: "web dev", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 // passport.use(new RememberMeStrategy(
 //     function(token, done) {
 //         Token.consume(token, function (err, user) {
@@ -37,16 +39,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 //         return done(null, token);
 //         });
 //     }
-//     ));
+// ));
 // app.use(passport.authenticate('remember-me'));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());    
-// app.use(function (req, res, next) {
-//     res.locals.currentUser = req.user;
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());    
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
 //     // res.locals.error = req.flash("error");
 //     // res.locals.success = req.flash("success");
-//     next();
-// });
+    next();
+});
 
 //**                    Main Routes
 
@@ -54,11 +56,49 @@ app.get("/", function(req, res){
     res.render('index');
 });
 
+//**                    Campgrounds
+
 app.get("/campgrounds", function (req, res) {
-    res.render('campgrounds');
+    Campgrounds.find({}, function (err, allcampgrounds) {
+        if(err){
+            console.log(err);
+        } else{
+            res.render('campgrounds',{campgrounds: allcampgrounds});
+        }
+    })
+    
 });
 
-app.get("/userprofile", function (req, res) {
+app.get("/campgrounds/new", function (req, res) {
+    res.render('campgroundNew');
+});
+
+app.post("/campgrounds/new", function (req, res) {
+    var newCampground = new Campgrounds({
+        name: req.body.name,
+        coverImage: req.body.image,
+        description: req.body.description
+    });
+    Campgrounds.create(newCampground, function (err, msg) {
+        if(err){
+            console.log(err);
+        } else{
+            res.redirect("/campgrounds");
+        }
+    })
+});
+
+app.get("/campground/:id", function (req, res) {
+    Campgrounds.findById(req.params.id, function (err, foundCampground) {
+        if(err){
+            console.log(err);
+        } else{
+            res.render("campgroundShow", {campground: foundCampground});
+        }
+    });
+});
+
+app.get("/userprofile", isLoggedIn, function (req, res) {
     res.send(req.user.firstName + req.user.lastName);
 })
 
@@ -75,41 +115,41 @@ app.post("/signup", function (req, res) {
         username : req.body.username,
         email    : req.body.email,
     });
-    // User.register(newUser, req.body.password, function (err, user) {
-    //     if(err){
-    //         req.flash("error", err.message);           
-    //         return res.render("/signup");
-    //     }
-    //     passport.authenticate("local")(req, res, function () {
-    //         res.redirect("/");
-    //     });
-    // });
+    User.register(newUser, req.body.password, function (err, user) {
+        if(err){
+            // req.flash("error", err.message);           
+            return res.render("/signup");
+        }
+        // passport.authenticate("local")(req, res, function () {
+        res.redirect("/login");
+        // });
+    });
 });
 
 app.get("/login", function name(req, res) {
     res.render("login");
 });
 
-// app.post("/login", passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), 
-//     function(req, res, next) {
-//         // issue a remember me cookie if the option was checked
-//         if (!req.body.remember_me) { return next(); }
+app.post("/login", passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
+    // function(req, res, next) {
+    // // Issue a remember me cookie if the option was checked
+    // if (!req.body.remember_me) { return next(); }
+    
+    // issueToken(req.user, function(err, token) {
+    //     if (err) { return next(err); }
+    //     res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 });
+    //     return next();
+    // });
+    // },
+    function(req, res) {
+    res.redirect('/');
+});
 
-//         var token = utils.generateToken(64);
-//         Token.save(token, { userId: req.user._id }, function(err) {
-//             if (err) { return done(err); }
-//             res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 }); // 7 days
-//             return next();
-//         });
-//     }, function (req, res) {
-//         res.redirect('/');
-// });
-
-// app.get("/logout", function (req, res) {
-//     res.clearCookie('remember_me');
-//     req.logout();
-//     res.redirect('/');
-// })
+app.get("/logout", function (req, res) {
+    res.clearCookie('remember_me');
+    req.logout();
+    res.redirect('/');
+})
 
 //**                    Misc
 
@@ -126,13 +166,14 @@ app.get("*", function (req, res) {
 });
 
 //**                    Midllewares
-// function isLoggedIn(req, res, next) {
-//     if(req.isAuthenticated()){
-//         return next();
-//     }
-//     // req.flash("error", "Please Login First!");
-//     res.redirect("/login");
-// };
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    // req.flash("error", "Please Login First!");
+    res.redirect("/login");
+};
 
 // function isLoggedOut(req, res, next) {
 //     if(!req.isAuthenticated()){
