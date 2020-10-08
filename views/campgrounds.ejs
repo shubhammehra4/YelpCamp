@@ -6,11 +6,11 @@
     <div class="container">
         <div class="row text-center">
             <% campgrounds.forEach(function(campground){ %>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6 pad">
                     <div class="thumbnail">
                             <img src="<%= campground.coverImage %> " style="width:100%">
                             <div class="caption">
-                                <h4><%= campground.name %> <i class="fa fa-heart" id="icons" aria-hidden="true"></i></h4>
+                                <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart" id="icons" aria-hidden="true"></i></p>
                             </div>
                             <p>
                                 <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>

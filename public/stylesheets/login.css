@@ -1,0 +1,52 @@
+body{
+    background-color: grey;
+}
+div.card{
+    border-radius: 10px;
+    width: 40%;
+    padding: auto;
+    margin: 15rem auto;
+}
+
+input#username ,input#password{
+    border: none;
+    border-bottom: 2px solid black;
+    box-shadow: none;
+    outline: none;
+}
+
+label {
+    width: 100%;
+    margin-top: 30px;
+    position:relative;
+    display:inline-block;
+}
+    
+span {
+    padding:10px;
+    pointer-events: none;
+    position:absolute;
+    left:5px;
+    top:0;
+    transition: 0.2s;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    opacity:0.5;
+}
+  
+input#username:focus + input#password:focus  + span, input:not(:placeholder-shown) + span {
+    opacity:1;
+    transform: scale(1) translateY(-100%) translateX(-10px);
+}
+  
+input:focus + span, input:not(:-ms-input-placeholder) + span {
+    opacity:1;
+    transform: scale(0.75) translateY(-100%) translateX(-30px);
+}
+
+label#remlab{
+    opacity: 0.5;
+}
+input[type=checkbox]:checked + label#remlab {
+    opacity: 1;
+}

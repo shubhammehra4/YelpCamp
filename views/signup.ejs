@@ -1,12 +1,43 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/stylesheets/signup.css">
     <div class="container">
-        <form action="/signup" method="post">
-            <input type="text" name="firstName" placeholder="First Name" required autofocus/>
-            <input type="text" name="lastName" placeholder="Last Name" required/>
-            <input type="text" name="username" placeholder="username" required/>
-            <input type="email" name="email" placeholder="Email"/>
-            <input type="password" name="password" placeholder="password" required>
-            <button>Submit</button>
-        </form>
+        <div class="card" p-5>
+            <h3 class="text-center p-5">Sign Up</h3>
+            <div class="sign-up-icons">
+                <i class="fa fa-google"></i>
+                <i class="fa fa-twitter"></i>
+                <i class="fa fa-facebook"></i>
+            </div>
+            <div class="cont">
+                <hr class="seprator">
+            </div>
+            <form action="/signup" method="post">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" name="firstName" placeholder="First Name" required autofocus>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="Username" required />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="Email" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+            </form>
+            <p class="text-center">
+                Already registered? <a href="/login">Login</a>
+            </p>
+        </div>
     </div>
 <%- include('partials/footer') %> 

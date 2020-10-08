@@ -10,6 +10,8 @@ passportLocalMongoose = require("passport-local-mongoose"),
 cookieParser          = require('cookie-parser'),
 User                  = require("./models/user"),
 Campgrounds           =  require('./models/campgrounds'),
+Comment               = require('./models/comment');
+// seedDB                = require('./seeds'),
 app                   = express();
 
 
@@ -50,6 +52,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+// seedDB();
+
 //**                    Main Routes
 
 app.get("/", function(req, res){
@@ -89,7 +93,7 @@ app.post("/campgrounds/new", function (req, res) {
 });
 
 app.get("/campground/:id", function (req, res) {
-    Campgrounds.findById(req.params.id, function (err, foundCampground) {
+    Campgrounds.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
         if(err){
             console.log(err);
         } else{
@@ -97,6 +101,28 @@ app.get("/campground/:id", function (req, res) {
         }
     });
 });
+
+app.post("/campground/:id/comment", function (req, res) {
+    Campgrounds.findById(req.params.id, function (err, campground) {
+        if(err){
+            console.log(err);
+        } else{
+            var newComment = {
+                author: "Jonas",
+                text: req.body.comment,
+            }
+            Comment.create(newComment, function (err, comment) {
+                if(err){
+                    console.log(err);
+                } else{
+                    campground.comments.push(comment);
+                    campground.save();
+                    res.redirect("/campground/" + campground._id);
+                }
+            })
+        }
+    })
+})
 
 app.get("/userprofile", isLoggedIn, function (req, res) {
     res.send(req.user.firstName + req.user.lastName);

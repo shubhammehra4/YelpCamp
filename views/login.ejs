@@ -1,12 +1,33 @@
 <%- include('partials/header') %>
-
+<link rel="stylesheet" href="/stylesheets/login.css">
     <div class="container">
-        <form action="/login" method="post">
-            <input type="text" name="username" placeholder="username" required autofocus>
-            <input type="password" name="password" placeholder="password" required>
-            <input type="checkbox" name="remember_me" id="">
-            <button>Submit</button>
-        </form>
+        <div class="card p-5">
+            <h3 class="text-center">Login</h3>
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label for="username">
+                        <input class="form-control" id="username" type="text" name="username" placeholder=" " required autofocus>
+                        <span><i class="fa fa-user-circle"></i> Username</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="password">
+                        <input class="form-control" id="password" type="password" name="password" placeholder=" " required>
+                        <span><i class="fa fa-key"></i> Password</span>
+                    </label>
+                </div>
+                <div class="form-group" class="remember_me">
+                    <input type="checkbox" id="remember" name="remember_me"> 
+                    <label for="remember" id="remlab" style="display: inline;">Remember Me!</label>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </form>
+            <p class="text-center">
+                New User ? <a href="/signup">Register Now!</a>
+            </p>
+        </div>
     </div>
     
 <%- include('partials/footer') %> 
