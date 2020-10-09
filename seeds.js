@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
 Campgrounds = require('./models/campgrounds'),
-Comment = require('./models/comment');
+Comment = require('./models/comment'),
+User = require('./models/user'); 
 
 var data =[
     {
@@ -35,11 +36,25 @@ var data =[
     }
 ]
 function seedDb(params) {
+    User.deleteMany({}, function (err) {
+        if(err){
+            console.log(err);
+        } else {
+            console.log("deleted all users");
+        }
+    });
     Campgrounds.deleteMany({}, function (err) {
         if(err){
             console.log(err);
         } else{
-            console.log("Cleared Collection");
+            console.log("Cleared Campgrounds");
+            Comment.deleteMany({}, function (err) {
+                if(err){
+                    console.log(err);
+                } else{
+                    console.log("Cleared comments");
+                }
+            });
             data.forEach(function (seed) {
                 Campgrounds.create(seed, function (err, campground) {
                     if(err){

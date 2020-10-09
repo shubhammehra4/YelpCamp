@@ -7,6 +7,7 @@ passportLocalMongoose = require("passport-local-mongoose");
     lastName          : String,
     username          : {type:String , unique:true},
     email             : {type:String , unique:true},
+    googleid          : String,
     password          : String,
  });
 

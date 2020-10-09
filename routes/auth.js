@@ -16,7 +16,7 @@ router.post("/signup", function (req, res) {
     });
     User.register(newUser, req.body.password, function (err, user) {
         if(err){
-            // req.flash("error", err.message);           
+            // req.flash("error", err.message);
             return res.render("/signup");
         }
         // passport.authenticate("local")(req, res, function () {
@@ -24,6 +24,15 @@ router.post("/signup", function (req, res) {
         // });
     });
 });
+
+// router.get("/auth/google", passport.authenticate("google", {
+//     scope:['profile']
+// }));
+
+// router.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
+//     // res.send("done!");
+//     res.redirect('/');
+// })
 
 router.get("/login", function name(req, res) {
     res.render("login");

@@ -7,6 +7,7 @@ passport              = require("passport"),
 LocalStrategy         = require("passport-local").Strategy,
 // RememberMeStrategy    = require('passport-remember-me').Strategy,
 passportLocalMongoose = require("passport-local-mongoose"),
+// GoogleStrategy        = require("passport-google-oauth20"),
 cookieParser          = require('cookie-parser'),
 User                  = require("./models/user"),
 Campgrounds           =  require('./models/campgrounds'),
@@ -30,6 +31,31 @@ app.use(require("express-session")({ secret: "web dev", resave: false, saveUnini
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(new GoogleStrategy({
+//         callbackURL: "/auth/google/callback",
+//         clientID: process.env.clientID,
+//         clientSecret: process.env.clientSecret
+//     }, (accessToken, refreshToken, profile, done) => {
+//         //callback 
+//         console.log(profile);
+//         User.findOne({googleid: profile.id}).then(function (existingUser) {
+//             if(existingUser){
+//                 done(null, existingUser);
+//             } else{
+//                 new User({
+//                     firstName: profile.name.givenName,
+//                     lastName: profile.name.familyName,
+//                     username: profile._json.email,
+//                     email: profile._json.email,
+//                     googleid: profile.id
+//                 }).save().then((newUser)=> {
+//                     // console.log(newUser);
+//                     done(null, newUser);
+//                 });
+//             }
+//         })        
+//     })
+// )
 // passport.use(new RememberMeStrategy(
 //     function(token, done) {
 //         Token.consume(token, function (err, user) {
