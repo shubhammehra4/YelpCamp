@@ -10,9 +10,13 @@ passportLocalMongoose = require("passport-local-mongoose"),
 cookieParser          = require('cookie-parser'),
 User                  = require("./models/user"),
 Campgrounds           =  require('./models/campgrounds'),
-Comment               = require('./models/comment');
+Comment               = require('./models/comment'),
+indexRoutes           = require("./routes/index"),
+campgroundsRoutes     = require("./routes/campground"),
+authRoutes            = require("./routes/auth"),
 // seedDB                = require('./seeds'),
 app                   = express();
+
 
 
 dotenv.config();
@@ -47,149 +51,17 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());    
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
-//     // res.locals.error = req.flash("error");
-//     // res.locals.success = req.flash("success");
+    // res.locals.error = req.flash("error");
+    // res.locals.success = req.flash("success");
     next();
 });
+app.use(authRoutes);
+app.use(campgroundsRoutes);
+app.use(indexRoutes);
 
+//!                 DB
 // seedDB();
 
-//**                    Main Routes
-
-app.get("/", function(req, res){
-    res.render('index');
-});
-
-//**                    Campgrounds
-
-app.get("/campgrounds", function (req, res) {
-    Campgrounds.find({}, function (err, allcampgrounds) {
-        if(err){
-            console.log(err);
-        } else{
-            res.render('campgrounds',{campgrounds: allcampgrounds});
-        }
-    })
-    
-});
-
-app.get("/campgrounds/new", function (req, res) {
-    res.render('campgroundNew');
-});
-
-app.post("/campgrounds/new", function (req, res) {
-    var newCampground = new Campgrounds({
-        name: req.body.name,
-        coverImage: req.body.image,
-        description: req.body.description
-    });
-    Campgrounds.create(newCampground, function (err, msg) {
-        if(err){
-            console.log(err);
-        } else{
-            res.redirect("/campgrounds");
-        }
-    })
-});
-
-app.get("/campground/:id", function (req, res) {
-    Campgrounds.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
-        if(err){
-            console.log(err);
-        } else{
-            res.render("campgroundShow", {campground: foundCampground});
-        }
-    });
-});
-
-app.post("/campground/:id/comment", function (req, res) {
-    Campgrounds.findById(req.params.id, function (err, campground) {
-        if(err){
-            console.log(err);
-        } else{
-            var newComment = {
-                author: "Jonas",
-                text: req.body.comment,
-            }
-            Comment.create(newComment, function (err, comment) {
-                if(err){
-                    console.log(err);
-                } else{
-                    campground.comments.push(comment);
-                    campground.save();
-                    res.redirect("/campground/" + campground._id);
-                }
-            })
-        }
-    })
-})
-
-app.get("/userprofile", isLoggedIn, function (req, res) {
-    res.send(req.user.firstName + req.user.lastName);
-})
-
-//**                    Authentication
-
-app.get("/signup", function (req, res) {
-    res.render("signup");
-});
-
-app.post("/signup", function (req, res) {
-    var newUser = new User({
-        firstName: req.body.firstName,
-        lastName : req.body.lastName,
-        username : req.body.username,
-        email    : req.body.email,
-    });
-    User.register(newUser, req.body.password, function (err, user) {
-        if(err){
-            // req.flash("error", err.message);           
-            return res.render("/signup");
-        }
-        // passport.authenticate("local")(req, res, function () {
-        res.redirect("/login");
-        // });
-    });
-});
-
-app.get("/login", function name(req, res) {
-    res.render("login");
-});
-
-app.post("/login", passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
-    // function(req, res, next) {
-    // // Issue a remember me cookie if the option was checked
-    // if (!req.body.remember_me) { return next(); }
-    
-    // issueToken(req.user, function(err, token) {
-    //     if (err) { return next(err); }
-    //     res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 });
-    //     return next();
-    // });
-    // },
-    function(req, res) {
-    res.redirect('/');
-});
-
-app.get("/logout", function (req, res) {
-    res.clearCookie('remember_me');
-    req.logout();
-    res.redirect('/');
-})
-
-//**                    Misc
-
-app.get("/aboutus", function (req, res) {
-    res.send("Hello");
-});
-
-app.get("/resources", function (req, res) {
-    res.send("Hello");
-});
-
-app.get("*", function (req, res) {
-    res.send("Return to home nothing here");
-});
 
 //**                    Midllewares
 
