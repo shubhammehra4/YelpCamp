@@ -22,24 +22,20 @@
                             <%= campground.description %>
                         </p>
                         <p> <em> By: <%= campground.author.username %> </em></p>
-                        <%# campground.author.id %>
-                        <%# currentUser._id %>  
-                        <% if(currentUser) { %>
-                            <% if (campground.author.id.toString() == currentUser._id.toString()){ %>
-                                <a href="/campground/<%= campground._id %>/edit" class="btn btn-info pull-right m-2">Edit</a>
-                                <form action="/campground/<%= campground._id %>/delete?_method=DELETE" method="POST">
-                                    <button class="btn btn-danger pull-right m-2">Delete</button>
-                                </form>
-                            <% } %>
-                        <% } %>                      
+                        <% if (currentUser && campground.author.id.toString() == currentUser._id.toString()){ %>
+                            <a href="/campground/<%= campground._id %>/edit" class="btn btn-info pull-right m-2">Edit</a>
+                            <form action="/campground/<%= campground._id %>/delete?_method=DELETE" method="POST">
+                                <button class="btn btn-danger pull-right m-2">Delete</button>
+                            </form>
+                        <% } %>                     
                     </div>
                 </div>
                 <div class="commentbox">
-                    <h4 class="text-center">Comments</h4>
+                    <h4 class="text-center">Reviews</h4>
                     <hr>
                     <% if(currentUser){ %> 
                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#exampleModalCenter">
-                            Add New Comment
+                            Add a Review
                         </button>
                         <br><br>
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -47,7 +43,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">New Comment - <strong><%= campground.name %></strong>
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Review - <strong><%= campground.name %></strong>
                                         </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -57,7 +53,16 @@
                                         <strong>Author : <%= currentUser.username  %>  </strong>
                                         <form action="/campground/<%= campground._id %>/comment" method="POST">
                                             <div class="form-group">
-                                                <input class="form-control" type="text" name="comment" placeholder="Comment" required  autofocus/>
+                                                <input class="form-control" type="text" name="comment" placeholder="Review" required  autofocus/>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="rating">
+                                                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" /> <label for="star5">☆</label>
+                                                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" /> <label for="star4">☆</label>
+                                                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" /> <label for="star3">☆</label>
+                                                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" /> <label for="star2">☆</label>
+                                                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" /><label for="star1">☆</label>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn-primary">Submit</button>
@@ -71,7 +76,16 @@
                         <% campground.comments.forEach(function (comment) { %>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <strong><%= comment.author.username %></strong>
+                                    <strong>
+                                        <%= comment.author.username %>
+                                        <% for (i = 1; i < 6; i++) { %>
+                                            <% if(i<=comment.rating){ %>
+                                                <i class="fa fa-star"></i>
+                                            <% } else{ %>
+                                                <i class="fa fa-star-o"></i>
+                                            <% } %>   
+                                        <% } %>  
+                                    </strong>
                                     <span class="pull-right">10 days ago</span>
                                     <p>
                                         <%= comment.text %>

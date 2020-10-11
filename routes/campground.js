@@ -101,6 +101,7 @@ router.post("/campground/:id/comment", isLoggedIn, function (req, res) {
         } else{
             var newComment = {
                 text: req.body.comment,
+                rating: req.body.star
             }
             Comment.create(newComment, function (err, comment) {
                 if(err){

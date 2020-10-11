@@ -90,6 +90,16 @@ app.use(indexRoutes);
 //!                 DB
 // seedDB();
 
+/** 
+ * TODO: 
+ * TODO: Comments CRUD
+ * TODO: Landing Page
+ * TODO: password show func.
+ * TODO: Make a profile page
+ * TODO: add like functionality
+ * TODO: show average of rating on campground 
+*/
+
 
 //**                    Midllewares
 

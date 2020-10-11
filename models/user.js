@@ -9,7 +9,15 @@ passportLocalMongoose = require("passport-local-mongoose");
     email             : {type:String , unique:true},
     googleid          : String,
     password          : String,
- });
+    likedCampgrounds: [
+       {
+          id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Campgrounds"
+          }
+       }
+    ]
+ }, {timestamps: true});
 
 UserSchema.plugin(passportLocalMongoose);
 

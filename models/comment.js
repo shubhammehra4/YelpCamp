@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 var commentSchema = new mongoose.Schema({
     text: String,
+    rating: Number,
     author: {
         id:{
             type: mongoose.Schema.Types.ObjectId,
@@ -9,6 +10,6 @@ var commentSchema = new mongoose.Schema({
         },
         username: String
     }
-});
+}, { timestamps: true});
 
 module.exports = mongoose.model("Comment", commentSchema);
