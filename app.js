@@ -9,6 +9,7 @@ LocalStrategy         = require("passport-local").Strategy,
 passportLocalMongoose = require("passport-local-mongoose"),
 // GoogleStrategy        = require("passport-google-oauth20"),
 cookieParser          = require('cookie-parser'),
+methodOverride        = require('method-override'),
 User                  = require("./models/user"),
 Campgrounds           =  require('./models/campgrounds'),
 Comment               = require('./models/comment'),
@@ -24,6 +25,7 @@ dotenv.config();
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 // app.use(flash);

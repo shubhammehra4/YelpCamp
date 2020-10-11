@@ -1,11 +1,11 @@
 <%- include('partials/header') %>
     <div class="jumbotron">
-        <h1>Create a new Campground</h1>
+        <h1 class="text-center">Create a new Campground</h1>
     </div>
     <div class="container">
         <form action="/campgrounds/new" method="post">
-            <input type="text" placeholder="name" name="name" required autofocus>
-            <input type="text" placeholder="image url" name="image" required>
+            <input type="text" placeholder="Name" name="name" required autofocus>
+            <input type="text" placeholder="Image URL" name="image" required>
             <input type="text" placeholder="Description" name="description" required>
             <button>Submit</button>
         </form>

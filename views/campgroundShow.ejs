@@ -21,6 +21,17 @@
                         <p class="p-3" style="font-size: large;">
                             <%= campground.description %>
                         </p>
+                        <p> <em> By: <%= campground.author.username %> </em></p>
+                        <%# campground.author.id %>
+                        <%# currentUser._id %>  
+                        <% if(currentUser) { %>
+                            <% if (campground.author.id.toString() == currentUser._id.toString()){ %>
+                                <a href="/campground/<%= campground._id %>/edit" class="btn btn-info pull-right m-2">Edit</a>
+                                <form action="/campground/<%= campground._id %>/delete?_method=DELETE" method="POST">
+                                    <button class="btn btn-danger pull-right m-2">Delete</button>
+                                </form>
+                            <% } %>
+                        <% } %>                      
                     </div>
                 </div>
                 <div class="commentbox">
@@ -44,7 +55,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <strong>Author : <%= currentUser.username  %>  </strong>
-                                        <form action="/campground/<%= campground._id %>/comment/<%= currentUser.username %> " method="POST">
+                                        <form action="/campground/<%= campground._id %>/comment" method="POST">
                                             <div class="form-group">
                                                 <input class="form-control" type="text" name="comment" placeholder="Comment" required  autofocus/>
                                             </div>
@@ -60,7 +71,7 @@
                         <% campground.comments.forEach(function (comment) { %>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <strong><%= comment.author %></strong>
+                                    <strong><%= comment.author.username %></strong>
                                     <span class="pull-right">10 days ago</span>
                                     <p>
                                         <%= comment.text %>
