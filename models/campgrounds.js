@@ -9,6 +9,7 @@ var CampgroundSchema = new mongoose.Schema({
         x: Number,
         y: Number
     },
+    webLink: String,
     author:{
         id:{
             type: mongoose.Schema.Types.ObjectId,

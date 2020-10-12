@@ -32,8 +32,12 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
         name: req.body.name,
         coverImage: req.body.image,
         description: req.body.description,
-        author:cAuthor
+        author:cAuthor,
+        pricing: req.body.pricing
     });
+    if(req.body.refer){
+        newCampground.webLink = req.body.refer
+    }
     Campgrounds.create(newCampground, function (err, msg) {
         if(err){
             console.log(err);

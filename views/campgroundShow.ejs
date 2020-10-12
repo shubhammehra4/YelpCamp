@@ -40,12 +40,19 @@
                 <div class="card">
                     <img class="img-fluid img-responsive" src="<%= campground.coverImage %>">
                     <div class="caption">
-                        <h4 class="pull-right">$9.00/night</h4>
-                        <h4><a href="#"><%= campground.name %></a></h4>
+                        <h4 class="pull-right">Rs <%= campground.pricing %>/night</h4>
+                        
+                        <h4><a href="<%= campground.webLink %>"><%= campground.name %></a></h4>
                         <p class="p-3" style="font-size: large;">
                             <%= campground.description %>
                         </p>
-                        <p> <em> By: <%= campground.author.username %> </em></p>
+
+                        <p> By:<em> <%= campground.author.username %> </em></p>
+
+                        <% var options = {year: 'numeric', month: 'long', day: 'numeric' }; %> 
+                        <p>
+                            Last Modified: <em><%= new Date(campground.updatedAt).toLocaleDateString("en-US", options) %> </em>
+                        </p>
                         <% if (currentUser && campground.author.id.toString() == currentUser._id.toString()){ %>
                             <a href="/campground/<%= campground._id %>/edit" class="btn btn-info pull-right m-2">Edit</a>
                             <form action="/campground/<%= campground._id %>/delete?_method=DELETE" method="POST">
