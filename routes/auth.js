@@ -25,9 +25,8 @@ router.post("/signup", isLoggedOut, function (req, res) {
             }
             
         }
-        // passport.authenticate("local")(req, res, function () {
+        
         res.redirect("/login");
-        // });
     });
 });
 
@@ -51,18 +50,7 @@ router.post("/login", isLoggedOut, passport.authenticate('local', {
     successFlash: true,
     successFlash: "Welcome!"
     }),
-    // function(req, res, next) {
-    // // Issue a remember me cookie if the option was checked
-    // if (!req.body.remember_me) { return next(); }
-    
-    // issueToken(req.user, function(err, token) {
-    //     if (err) { return next(err); }
-    //     res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 });
-    //     return next();
-    // });
-    // },
     function(req, res) {
-    // res.redirect('/');
 });
 
 router.get("/logout", isLoggedIn, function (req, res) {

@@ -5,10 +5,8 @@ mongoose              = require("mongoose"),
 flash                 = require("connect-flash"),
 passport              = require("passport"),
 LocalStrategy         = require("passport-local").Strategy,
-// RememberMeStrategy    = require('passport-remember-me').Strategy,
 passportLocalMongoose = require("passport-local-mongoose"),
 // GoogleStrategy        = require("passport-google-oauth20"),
-cookieParser          = require('cookie-parser'),
 methodOverride        = require('method-override'),
 User                  = require("./models/user"),
 Campgrounds           =  require('./models/campgrounds'),
@@ -27,7 +25,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(flash());
 app.use(require("express-session")({ secret: "web dev", resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
@@ -58,23 +56,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 //         })        
 //     })
 // )
-// passport.use(new RememberMeStrategy(
-//     function(token, done) {
-//         Token.consume(token, function (err, user) {
-//         if (err) { return done(err); }
-//         if (!user) { return done(null, false); }
-//         return done(null, user);
-//         });
-//     },
-//     function(user, done) {
-//         var token = utils.generateToken(64);
-//         Token.save(token, { userId: user.id }, function(err) {
-//         if (err) { return done(err); }
-//         return done(null, token);
-//         });
-//     }
-// ));
-// app.use(passport.authenticate('remember-me'));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());    
 app.use(function (req, res, next) {
@@ -98,25 +79,6 @@ app.use(indexRoutes);
  * TODO: add like functionality
  * TODO: show average of rating on campground 
 */
-
-
-//**                    Midllewares
-
-function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()){
-        return next();
-    }
-    // req.flash("error", "Please Login First!");
-    res.redirect("/login");
-};
-
-// function isLoggedOut(req, res, next) {
-//     if(!req.isAuthenticated()){
-//         return next();
-//     }
-//     // req.flash("error", "Please Logout First!");
-//     res.redirect("/");  
-// };
 
 
 //**                    Port
