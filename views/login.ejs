@@ -1,4 +1,28 @@
 <%- include('partials/header') %>
+<div class="container" id="popup" style="margin-top: 10px;">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+            <a class = "close">X</a>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+            <a class = "close">X</a>
+        </div>
+    <% } %>
+</div>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('div#popup').slideUp();
+        }, 6000);
+    });
+    $('a.close').click(function () {
+        $('div#popup').slideUp();
+    })
+</script>
 <link rel="stylesheet" href="/stylesheets/login.css">
     <div class="container">
         <div class="card p-5">

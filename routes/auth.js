@@ -1,13 +1,13 @@
-const express         = require('express'),
-router = express.Router(),
-passport              = require("passport"),
-User                  = require("../models/user");
+const express = require('express'),
+router        = express.Router(),
+passport      = require("passport"),
+User          = require("../models/user");
 
-router.get("/signup", function (req, res) {
+router.get("/signup", isLoggedOut, function (req, res) {
     res.render("signup");
 });
 
-router.post("/signup", function (req, res) {
+router.post("/signup", isLoggedOut, function (req, res) {
     var newUser = new User({
         firstName: req.body.firstName,
         lastName : req.body.lastName,
@@ -16,8 +16,14 @@ router.post("/signup", function (req, res) {
     });
     User.register(newUser, req.body.password, function (err, user) {
         if(err){
-            // req.flash("error", err.message);
-            return res.render("/signup");
+            if(err.code == 11000){
+                req.flash("error", "Email already in use!");
+                return res.redirect("/signup");
+            } else{
+                req.flash("error", err.message);
+                return res.redirect("/signup");
+            }
+            
         }
         // passport.authenticate("local")(req, res, function () {
         res.redirect("/login");
@@ -34,14 +40,16 @@ router.post("/signup", function (req, res) {
 //     res.redirect('/');
 // })
 
-router.get("/login", function name(req, res) {
+router.get("/login", isLoggedOut, function name(req, res) {
     res.render("login");
 });
 
-router.post("/login", passport.authenticate('local', {
+router.post("/login", isLoggedOut, passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true,
     successRedirect:'/campgrounds',
+    successFlash: true,
+    successFlash: "Welcome!"
     }),
     // function(req, res, next) {
     // // Issue a remember me cookie if the option was checked
@@ -57,30 +65,31 @@ router.post("/login", passport.authenticate('local', {
     // res.redirect('/');
 });
 
-router.get("/logout", function (req, res) {
+router.get("/logout", isLoggedIn, function (req, res) {
     // res.clearCookie('remember_me');
     req.logout();
-    res.redirect('/');
+    req.flash("success", "Logged You Out");
+    res.redirect('/campgrounds');
 });
 
 router.get("/userprofile", isLoggedIn, function (req, res) {
-    res.send(req.user.firstName + req.user.lastName);
+    res.render("profile");
 });
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();
     }
-    // req.flash("error", "Please Login First!");
+    req.flash("error", "Please Login First!");
     res.redirect("/login");
 };
 
-// function isLoggedOut(req, res, next) {
-//     if(!req.isAuthenticated()){
-//         return next();
-//     }
-//     // req.flash("error", "Please Logout First!");
-//     res.redirect("/");  
-// };
+function isLoggedOut(req, res, next) {
+    if(!req.isAuthenticated()){
+        return next();
+    }
+    req.flash("error", "Please Logout First!");
+    res.redirect("/campgrounds");  
+};
 
 module.exports = router;

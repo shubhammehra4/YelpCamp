@@ -1,4 +1,28 @@
 <%- include('partials/header') %>
+    <div class="container" id="popup" style="margin-top: 10px;">
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+                <a class = "close">X</a>
+            </div>
+        <% } %>
+        <% if(success && success.length > 0){ %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+                <a class = "close">X</a>
+            </div>
+        <% } %>
+    </div>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('div#popup').slideUp();
+            }, 6000);
+        });
+        $('a.close').click(function () {
+            $('div#popup').slideUp();
+        })
+    </script>
 <link rel="stylesheet" href="/stylesheets/campgroundshow.css">
     <div class=" cont p-3">
         <div class="row">
@@ -73,7 +97,8 @@
                             </div>
                         </div>
                     <% } %> 
-                        <% campground.comments.forEach(function (comment) { %>
+                        <% campground.comments.forEach(function (comment, index) { %>
+                            <% text = comment.text %> 
                             <div class="row">
                                 <div class="col-md-12">
                                     <strong>
@@ -89,6 +114,37 @@
                                     <span class="pull-right">10 days ago</span>
                                     <p>
                                         <%= comment.text %>
+                                        <!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editComment"> Edit </button>
+                                        <br><br>
+                                        <div class="modal fade" id="editComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Review - <strong><%# campground.name %></strong></h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong>Author : Author  </strong>
+                                                        <form action="/campground/<%# campground._id %>/comment/<%# comment._id %>/edit" method="POST">
+                                                            <div class="form-group">
+                                                                <input class="form-control" type="text" name="comment" placeholder="Review" value="<%# comment.text %>" required  autofocus/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="rating">
+                                                                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" /> <label for="star5">☆</label>
+                                                                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" /> <label for="star4">☆</label>
+                                                                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" /> <label for="star3">☆</label>
+                                                                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" /> <label for="star2">☆</label>
+                                                                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" /><label for="star1">☆</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary">Submit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
                                     </p>
                                 </div>
                             </div>               

@@ -2,7 +2,7 @@ const express         = require('express'),
 bodyParser            = require("body-parser"),
 dotenv                = require('dotenv'),
 mongoose              = require("mongoose"),
-// flash                 = require("connect-flash"),
+flash                 = require("connect-flash"),
 passport              = require("passport"),
 LocalStrategy         = require("passport-local").Strategy,
 // RememberMeStrategy    = require('passport-remember-me').Strategy,
@@ -28,7 +28,7 @@ app.use(express.static("public"));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-// app.use(flash);
+app.use(flash());
 app.use(require("express-session")({ secret: "web dev", resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -79,8 +79,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());    
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
-    // res.locals.error = req.flash("error");
-    // res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 app.use(authRoutes);

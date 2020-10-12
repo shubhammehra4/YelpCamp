@@ -1,8 +1,28 @@
-<%- include('partials/header') %> 
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Yelpcamp</h1>
-            <p class="lead">The best campgrounds around the world</p>
-        </div>
+<%# include('partials/header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+<body>
+<link rel="stylesheet" href="/stylesheets/landing.css">
+    <div id="landing-header">
+        <h1> <i class="fa fa-home"></i> Welcome to YelpCamp!</h1>
+        <a href="/campgrounds" class="btn btn-primary">View all Campgrounds</a>
     </div>
+
+    <ul class="slideshow">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
 <%- include('partials/footer') %> 

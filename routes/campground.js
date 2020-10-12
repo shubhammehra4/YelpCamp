@@ -9,10 +9,12 @@ router.get("/campgrounds", function (req, res) {
     Campgrounds.find({}, function (err, allcampgrounds) {
         if(err){
             console.log(err);
+            // flash error : Please try again
+            res.redirect("/");
         } else{
             res.render('campgrounds',{campgrounds: allcampgrounds});
         }
-    })
+    });
 });
 
 //**                CREATE
@@ -35,7 +37,10 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
     Campgrounds.create(newCampground, function (err, msg) {
         if(err){
             console.log(err);
+            req.flash("error", "Error! Please Try Again");
+            res.redirect("/campgrounds");
         } else{
+            req.flash("success", "Created Campground!");
             res.redirect("/campgrounds");
         }
     })
@@ -47,6 +52,7 @@ router.get("/campground/:id", function (req, res) {
     Campgrounds.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
         if(err){
             console.log(err);
+            req.flash("error", "Error! Please try again");
             res.redirect("/campgrounds");
         } else{
             res.render("campgroundShow", {campground: foundCampground});
@@ -59,7 +65,8 @@ router.get("/campground/:id", function (req, res) {
 router.get("/campground/:id/edit", checkCampgroundOwnership, function (req, res) {
     Campgrounds.findById(req.params.id, function (err, foundCampground) {
         if(err){
-            res.redirect('back');
+            req.flash("error", "Error! Please Try Again");
+            res.redirect('back');     
         } else {
             res.render('campgroundEdit', {campground: foundCampground});
         }
@@ -74,8 +81,10 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, function (req, res)
     };
     Campgrounds.findByIdAndUpdate(req.params.id, updatedCampground, function (err, campground) {
         if(err){
+            req.flash("error", "Error! Please Try Again");
             res.redirect("/campgrounds");
         } else {
+            req.flash("success", "Edited "+campground.name);
             res.redirect("/campground/" + req.params.id);
         }
     })
@@ -86,8 +95,10 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, function (req, res)
 router.delete("/campground/:id/delete", checkCampgroundOwnership, function (req, res) {
     Campgrounds.findByIdAndDelete(req.params.id, function (err) {
         if(err){
+            req.flash("error", "Error! Please Try Again");
             res.redirect("/campgrounds");
         }
+        req.flash("success", "Deleted Campground");
         res.redirect("/campgrounds");
     })
 })
@@ -119,11 +130,16 @@ router.post("/campground/:id/comment", isLoggedIn, function (req, res) {
     })
 });
 
+// router.post("/campground/:id/comment/:cid/edit", function (req, res) {
+//     res.redirect("/campgrounds");
+//     console.log("Ran");
+// });
+
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();
     }
-    // req.flash("error", "Please Login First!");
+    req.flash("error", "Please Login First!");
     res.redirect("/login");
 };
 
@@ -131,17 +147,20 @@ function checkCampgroundOwnership(req, res, next) {
     if(req.isAuthenticated()){
         Campgrounds.findById(req.params.id, function (err, foundCampground) {
             if(err){
+                req.flash("error", "Error! Please Try Again");
                 res.redirect('back');
             } else {
                 if(foundCampground.author.id.equals(req.user._id)){
                     next();
                 }
                 else{
+                    req.flash("error", "Unauthorised Request!");
                     res.redirect("back");
                 }
             }
         });
     } else {
+        req.flash("error", "Please Login First!");
         res.redirect("/login");
     }
 };
