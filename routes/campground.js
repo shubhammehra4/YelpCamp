@@ -1,6 +1,7 @@
 const express = require('express'),
 router        = express.Router(),
 Campgrounds   =  require('../models/campgrounds'),
+User          = require('../models/user'),
 Comment       = require('../models/comment');
 
 //**                MAIN
@@ -33,12 +34,13 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
         coverImage: req.body.image,
         description: req.body.description,
         author:cAuthor,
-        pricing: req.body.pricing
+        pricing: req.body.pricing,
+        address: req.body.address
     });
     if(req.body.refer){
         newCampground.webLink = req.body.refer
     }
-    Campgrounds.create(newCampground, function (err, msg) {
+    Campgrounds.create(newCampground, function (err, campground) {
         if(err){
             console.log(err);
             req.flash("error", "Error! Please Try Again");
@@ -47,7 +49,7 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
             req.flash("success", "Created Campground!");
             res.redirect("/campgrounds");
         }
-    })
+    });
 });
 
 //**                SHOW
@@ -82,6 +84,8 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, function (req, res)
         name: req.body.name,
         coverImage: req.body.image,
         description: req.body.description,
+        pricing: req.body.pricing,
+        address: req.body.address
     };
     Campgrounds.findByIdAndUpdate(req.params.id, updatedCampground, function (err, campground) {
         if(err){
@@ -126,6 +130,8 @@ router.post("/campground/:id/comment", isLoggedIn, function (req, res) {
                     comment.author.username = req.user.username;
                     comment.save();
                     campground.comments.push(comment);
+                    campground.ratingCount +=1;
+                    campground.ratingNumber = campground.ratingNumber + Number(req.body.star);
                     campground.save();
                     res.redirect("/campground/" + campground._id);
                 }

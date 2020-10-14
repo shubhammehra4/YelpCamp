@@ -5,53 +5,80 @@
                 <%= error %>
                 <a class = "close">X</a>
             </div>
+            <script>
+                $(document).ready(function() {
+                    setTimeout(function() {
+                        $('div#popup').slideUp();
+                    }, 6000);
+                });
+                $('a.close').click(function () {
+                    $('div#popup').slideUp();
+                })
+            </script>
         <% } %>
         <% if(success && success.length > 0){ %>
             <div class="alert alert-success" role="alert">
                 <%= success %>
                 <a class = "close">X</a>
             </div>
+            <script>
+                $(document).ready(function() {
+                    setTimeout(function() {
+                        $('div#popup').slideUp();
+                    }, 6000);
+                });
+                $('a.close').click(function () {
+                    $('div#popup').slideUp();
+                })
+            </script>
         <% } %>
     </div>
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $('div#popup').slideUp();
-            }, 6000);
-        });
-        $('a.close').click(function () {
-            $('div#popup').slideUp();
-        })
-    </script>
 <link rel="stylesheet" href="/stylesheets/campgroundshow.css">
     <div class=" cont p-3">
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">YelpCamp</div>
+                <h4 class="text-center"><%= campground.name %> </h4>
+                <div class="card info">
+                    <div class="card-header"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Best Time to visit</strong></div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item active">Info 1</li>
-                        <li class="list-group-item">Info 2</li>
-                        <li class="list-group-item">Info 3</li>
+                        <li class="list-group-item">Info 1</li>
                     </ul>
                 </div>
+                <div class="card info">
+                    <div class="card-header"><strong><i class="fa fa-smile-o" aria-hidden="true"></i> Facilities</strong></div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Info 2</li>
+                        <li class="list-group-item">Info 3</li>
+                        <li class="list-group-item">Info 4</li>
+                    </ul>
+                </div>
+                <div class="card info">
+                    <div class="card-header"><strong><i class="fa fa-globe" aria-hidden="true"></i> Booking</strong></div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> optional Info 5</li>
+                    </ul>
+                </div>
+                <p>
+                    <Address>Address: <%= campground.address %> </Address>
+                </p>
             </div>
             <div class="col-md-9">
                 <div class="card">
                     <img class="img-fluid img-responsive" src="<%= campground.coverImage %>">
                     <div class="caption">
-                        <h4 class="pull-right">Rs <%= campground.pricing %>/night</h4>
+                        <h4 class="pull-right">$ <%= campground.pricing %>/night</h4>
                         
                         <h4><a href="<%= campground.webLink %>"><%= campground.name %></a></h4>
+                        <div class="Stars" style="--rating: 5;" aria-label="Rating of this product"></div>
                         <p class="p-3" style="font-size: large;">
                             <%= campground.description %>
                         </p>
-
-                        <p> By:<em> <%= campground.author.username %> </em></p>
-
-                        <% var options = {year: 'numeric', month: 'long', day: 'numeric' }; %> 
-                        <p>
-                            Last Modified: <em><%= new Date(campground.updatedAt).toLocaleDateString("en-US", options) %> </em>
+                        <hr>
+                        <p> Submitted by:<em> <%= campground.author.username %> </em> Rating: <%= campground.ratingNumber %>& <%= campground.ratingCount %> Reviews  
+                            <span class="pull-right">
+                                <% var options = {year: 'numeric', month: 'long', day: 'numeric' }; %> 
+                                Last Modified: <em><%= new Date(campground.updatedAt).toLocaleDateString("en-US", options) %> </em>
+                            </span>
                         </p>
                         <% if (currentUser && campground.author.id.toString() == currentUser._id.toString()){ %>
                             <a href="/campground/<%= campground._id %>/edit" class="btn btn-info pull-right m-2">Edit</a>

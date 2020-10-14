@@ -1,17 +1,20 @@
 const mongoose = require("mongoose");
 
 var CampgroundSchema = new mongoose.Schema({
-    name: {type: String, unique: true},
-    coverImage: String,
-    description: String,
-    pricing: Number,
+    name         :{ type: String, unique: true },
+    coverImage   : String,
+    description  : String,
+    pricing      : Number,
+    ratingNumber :  { type: Number, default: 0 },
+    ratingCount  : { type: Number, default: 0 },
+    address      : String,
+    webLink      : String,
     loaction: {
-        x: Number,
-        y: Number
+        lat: Number,
+        lon: Number
     },
-    webLink: String,
-    author:{
-        id:{
+    author: {
+        id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
@@ -24,6 +27,6 @@ var CampgroundSchema = new mongoose.Schema({
             ref: "Comment"
         }
     ]
-}, {timestamps:true});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Campgrounds", CampgroundSchema);

@@ -1,0 +1,10 @@
+nav{
+    background-color: black;
+    font-size: medium;
+    /* height: 70px; */
+}
+
+a.navbar-brand{
+    padding-left: 100px;
+    font-size: x-large ;
+}

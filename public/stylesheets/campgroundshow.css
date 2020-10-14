@@ -1,3 +1,6 @@
+div.info{
+    margin-bottom: 25px;
+}
 div.cont{
     margin-top: 20px;
     padding-left: 10px;
@@ -58,4 +61,25 @@ div.commentbox{
     position: absolute;
     left: 0;
     color: #FFD700;
+}
+:root {
+    --star-size: 30px;
+    --star-color: #fff;
+    --star-background: #fc0;
+    }
+
+.Stars {
+    --percent: calc(var(--rating) / 5 * 100%);
+    display: inline-block;
+    font-size: var(--star-size);
+    font-family: Times;
+    line-height: 1;
+}
+.Stars::before {
+    content: '★★★★★';
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

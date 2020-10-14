@@ -1,6 +1,7 @@
 const express = require('express'),
 router        = express.Router(),
 passport      = require("passport"),
+Campgrounds   = require('../models/campgrounds'),
 User          = require("../models/user");
 
 router.get("/signup", isLoggedOut, function (req, res) {
@@ -9,8 +10,8 @@ router.get("/signup", isLoggedOut, function (req, res) {
 
 router.post("/signup", isLoggedOut, function (req, res) {
     var newUser = new User({
-        firstName: req.body.firstName,
-        lastName : req.body.lastName,
+        firstName: req.body.firstName.charAt(0).toUpperCase() + req.body.firstName.slice(1),
+        lastName : req.body.lastName.charAt(0).toUpperCase() + req.body.lastName.slice(1),
         username : req.body.username,
         email    : req.body.email,
     });
@@ -60,8 +61,14 @@ router.get("/logout", isLoggedIn, function (req, res) {
     res.redirect('/campgrounds');
 });
 
-router.get("/userprofile", isLoggedIn, function (req, res) {
-    res.render("profile");
+router.get("/profile/@:uname", isLoggedIn, function (req, res) {
+    Campgrounds.find({ author: {id: req.user._id, username: req.user.username}}, function (err, userCampgrounds) {
+        if(err){
+            console.log(err);
+        } else {
+            res.render("profile", {userCampgrounds: userCampgrounds});
+        }
+    })
 });
 
 function isLoggedIn(req, res, next) {

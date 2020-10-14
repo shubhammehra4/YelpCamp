@@ -1,14 +1,35 @@
-<%- include('partials/header') %> 
-    <div class="jumbotron">
-        <div class="container text-center">
-            <h1> <i class="fa fa-user-circle"></i> <%= currentUser.firstName %> <%= currentUser.lastName %>  </h1>
-            <p class="lead"><%= currentUser.email %></p>
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/stylesheets/profile.css"> 
+    <div class="container text-center">
+        <h1> <i class="fa fa-user-circle"></i> <%= currentUser.firstName %> <%= currentUser.lastName %>  </h1>
+        <p class="lead"><%= currentUser.email %></p>
+    </div>
+    <nav class="navbar navbar-expand-lg" id="profile">
+        <div class="navbar-nav" id="profile1">
+            <a class="nav-item nav-link focused" id="campgrounds" href="#">Campgrounds <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" id="likes" href="#">Likes</a>
+            <a class="nav-item nav-link" id="info" href="#">Future Info</a>
+        </div>
+    </nav>
+    <!-- <hr> -->
+    <div id="campgroundsShow">
+        <div class="container">
+            <div class="row text-center">
+                <% userCampgrounds.forEach(function(campground){ %>
+                    <div class="col-md-3 col-sm-6 pad">
+                        <div class="thumbnail">
+                                <img src="<%= campground.coverImage %> " style="width:100%">
+                                <div class="caption">
+                                    <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart" id="icons" aria-hidden="true"></i></p>
+                                </div>
+                                <p>
+                                    <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
+                                </p>
+                        </div>
+                    </div> 
+                <% }) %>  
+            </div>
         </div>
     </div>
-    <h3 class="text-center"> Liked Cacmpgrounds</h3>
-    <div class="container">
-        <ul>
-            <li>1</li>
-        </ul>
-    </div>
+<script src="/scripts/profile.js"></script>
 <%- include('partials/footer') %> 

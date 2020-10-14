@@ -1,3 +1,25 @@
+nav#profile{
+    height: 10px;
+    line-height: 10px;
+    background-color: transparent !important;
+    font-size: large;
+    margin-bottom: 100px;
+}
+div#profile1{
+    width: 100%;
+    border-bottom: rgb(207, 207, 207) solid 1px;
+}
+nav#profile a{
+    color:gray;
+    margin-right: 50px;
+    padding-bottom: 20px;
+    /* border-bottom: gray solid 1px; */
+}
+nav#profile a:hover{
+    color: black;
+}
+
+/* FROM campgrounds.css */
 div.row{
     display: flex;
     flex-wrap: wrap;
@@ -42,13 +64,7 @@ div.thumbnail:hover i#icons{
     transition: scale 300ms ease-in-out;
 }
 
-img.preview{
-    height:500px;
-    width: 100%;
-    object-fit: cover;
-    margin-bottom: 20px;
-}
-div.carousel-caption{
-    text-shadow: 1px 1px 2px black;
-    color: white;
+.focused{
+    border-bottom: black solid 3px;
+    color: black !important;
 }

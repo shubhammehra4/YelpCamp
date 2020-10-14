@@ -25,7 +25,6 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(cookieParser());
 app.use(flash());
 app.use(require("express-session")({ secret: "web dev", resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
