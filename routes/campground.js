@@ -101,11 +101,12 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, function (req, res)
 //**                DESTROY
 
 router.delete("/campground/:id/delete", checkCampgroundOwnership, function (req, res) {
-    Campgrounds.findByIdAndDelete(req.params.id, function (err) {
+    Campgrounds.findByIdAndDelete(req.params.id, function (err, campground) {
         if(err){
             req.flash("error", "Error! Please Try Again");
             res.redirect("/campgrounds");
         }
+        // campground.comments.forEach();
         req.flash("success", "Deleted Campground");
         res.redirect("/campgrounds");
     })
@@ -132,12 +133,13 @@ router.post("/campground/:id/comment", isLoggedIn, function (req, res) {
                     campground.comments.push(comment);
                     campground.ratingCount +=1;
                     campground.ratingNumber = campground.ratingNumber + Number(req.body.star);
+                    campground.hasRated.push(req.user._id);
                     campground.save();
                     res.redirect("/campground/" + campground._id);
                 }
-            })
+            });
         }
-    })
+    });
 });
 
 // router.post("/campground/:id/comment/:cid/edit", function (req, res) {
@@ -174,5 +176,24 @@ function checkCampgroundOwnership(req, res, next) {
         res.redirect("/login");
     }
 };
+
+// function hasRated(req, res, next) {
+//     Campgrounds.findById(req.params.id, function (err, campground) {
+//         if(err){
+//             console.log(err);
+//         } else{
+//             for (let i = 0; i < campground.hasRated.length; i++) {
+//                 const ele = campground.hasRated[i];
+//                 if(ele.toString() == req.user._id.toString()){
+//                     // req.flash("error", "Already Reviewed");\
+//                     console.log('yes');
+//                     res.redirect("/campground/"+campground._id);
+//                     break;
+//                 }
+//             }
+//             next();
+//         }
+//     });
+// }
 
 module.exports = router;

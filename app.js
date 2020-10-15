@@ -73,10 +73,7 @@ app.use(indexRoutes);
 /** 
  * TODO: 
  * TODO: Comments CRUD
- * TODO: password show func.
- * TODO: Make a profile page
- * TODO: add like functionality
- * TODO: show average of rating on campground 
+ * TODO: add like functionality  
 */
 
 

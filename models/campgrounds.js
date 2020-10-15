@@ -20,6 +20,7 @@ var CampgroundSchema = new mongoose.Schema({
         },
         username: String
     },
+    hasRated: [],
     images: [],
     comments: [
         {
