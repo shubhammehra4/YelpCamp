@@ -44,24 +44,34 @@
                 <%= error %>
                 <a class = "close">X</a>
             </div>
+            <script>
+                $(document).ready(function() {
+                    setTimeout(function() {
+                        $('div#popup').slideUp();
+                    }, 3000);
+                });
+                $('a.close').click(function () {
+                    $('div#popup').slideUp();
+                })
+            </script>
         <% } %>
         <% if(success && success.length > 0){ %>
             <div class="alert alert-success" role="alert">
                 <%= success %>
                 <a class = "close">X</a>
             </div>
+            <script>
+                $(document).ready(function() {
+                    setTimeout(function() {
+                        $('div#popup').slideUp();
+                    }, 3000);
+                });
+                $('a.close').click(function () {
+                    $('div#popup').slideUp();
+                })
+            </script>
         <% } %>
     </div>
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $('div#popup').slideUp();
-            }, 3000);
-        });
-        $('a.close').click(function () {
-            $('div#popup').slideUp();
-        })
-    </script>
     <div class="container">
         <div class="row text-center">
             <% campgrounds.forEach(function(campground){ %>
@@ -69,7 +79,11 @@
                     <div class="thumbnail">
                             <img src="<%= campground.coverImage %> " style="width:100%">
                             <div class="caption">
-                                <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart" id="icons" aria-hidden="true"></i></p>
+                                <% if(currentUser){ %>
+                                    <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></p>
+                                <% } else{ %>
+                                    <p> <span class="imagename"><%= campground.name %></span></p>
+                                <% } %> 
                             </div>
                             <p>
                                 <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
@@ -79,5 +93,18 @@
             <% }) %>  
         </div>
     </div>
-    
+    <script>
+        $('i.icon').click(function () {
+            var campgroundId = $(this).attr('campgroundid');
+            // console.log(campgroundId);
+            $.ajax({
+                method: "POST",
+                url: "/save",
+                data: {campgroundId: campgroundId}
+            })
+            .done(function(){
+                alert("Check");
+            });
+        })
+    </script>
 <%- include('partials/footer') %> 

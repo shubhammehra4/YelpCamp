@@ -71,6 +71,24 @@ router.get("/profile/@:uname", isLoggedIn, function (req, res) {
     })
 });
 
+router.post("/save", isLoggedIn, function (req, res) {
+    Campgrounds.findById(req.body.campgroundId, function (err, campground) {
+        if(err){
+            console.log("Error");
+        } else{
+            var liked = {id: req.body.campgroundId ,name: campground.name};
+            User.findByIdAndUpdate(req.user._id, {$addToSet: {likedCampgrounds: liked}}, function (err, user) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log("Saved");
+                }
+            });
+        }
+    });
+});
+
+
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();

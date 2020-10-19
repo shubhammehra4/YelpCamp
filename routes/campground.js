@@ -42,9 +42,15 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
     }
     Campgrounds.create(newCampground, function (err, campground) {
         if(err){
-            console.log(err);
-            req.flash("error", "Error! Please Try Again");
-            res.redirect("/campgrounds");
+            if(err.code == 11000){
+                req.flash("error", "Campground with this name already exists!");
+                res.redirect("/campgrounds");
+            } else{
+                console.log(err);
+                req.flash("error", "Error! Please Try Again");
+                res.redirect("/campgrounds");
+            }
+            
         } else{
             req.flash("success", "Created Campground!");
             res.redirect("/campgrounds");

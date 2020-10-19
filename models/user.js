@@ -9,12 +9,7 @@ var UserSchema = new mongoose.Schema({
     email: { type: String, unique: true },
     googleid: String,
     password: String,
-    likedCampgrounds: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Campgrounds"
-        }
-    ],
+    likedCampgrounds: []
 }, { timestamps: true });
 
 UserSchema.plugin(passportLocalMongoose);

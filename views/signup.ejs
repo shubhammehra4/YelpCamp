@@ -5,24 +5,34 @@
             <%= error %>
             <a class = "close">X</a>
         </div>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('div#popup').slideUp();
+                }, 3000);
+            });
+            $('a.close').click(function () {
+                $('div#popup').slideUp();
+            })
+        </script>
     <% } %>
     <% if(success && success.length > 0){ %>
         <div class="alert alert-success" role="alert">
             <%= success %>
             <a class = "close">X</a>
         </div>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('div#popup').slideUp();
+                }, 3000);
+            });
+            $('a.close').click(function () {
+                $('div#popup').slideUp();
+            })
+        </script>
     <% } %>
 </div>
-<script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('div#popup').slideUp();
-        }, 3000);
-    });
-    $('a.close').click(function () {
-        $('div#popup').slideUp();
-    })
-</script>
 <link rel="stylesheet" href="/stylesheets/signup.css">
     <div class="container">
         <div class="card" p-5>
