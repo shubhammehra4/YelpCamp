@@ -65,16 +65,27 @@
             <div class="col-md-9">
                 <div class="card">
                     <img class="img-fluid img-responsive" src="<%= campground.coverImage %>">
-                    <div class="caption">
+                    <div class="caption">    
                         <h4 class="pull-right">$ <%= campground.pricing %>/night</h4>
                         
                         <h4><a href="<%= campground.webLink %>"><%= campground.name %></a></h4>
-                        <div class="Stars" style="--rating: 5;" aria-label="Rating of this product"></div>
+                        <% if(campground.ratingCount > 0){ %>  
+                            <% var rat = campground.ratingNumber/campground.ratingCount %>
+                        <% } else { %>
+                            <% var rat = 0 %>
+                        <% } %>
+                        <div class="Stars" style="--rating: <%= rat %> ;" aria-label="Rating of this product"></div>
+                        <% if(campground.ratingCount == 1){ %>
+                            <%= campground.ratingCount %> review
+                        <% } else if(campground.ratingCount > 1){ %>
+                            <%= campground.ratingCount %> reviews
+
+                        <% } %> 
                         <p class="p-3" style="font-size: large;">
                             <%= campground.description %>
                         </p>
                         <hr>
-                        <p> Submitted by:<em> <%= campground.author.username %> </em> Rating: <%= campground.ratingNumber %>& <%= campground.ratingCount %> Reviews  
+                        <p> Submitted by:<em> <%= campground.author.username %> </em>  
                             <span class="pull-right">
                                 <% var options = {year: 'numeric', month: 'long', day: 'numeric' }; %> 
                                 Last Modified: <em><%= new Date(campground.updatedAt).toLocaleDateString("en-US", options) %> </em>
@@ -144,7 +155,6 @@
                         <% } %> 
                     <% } %> 
                         <% campground.comments.forEach(function (comment, index) { %>
-                            <% text = comment.text %> 
                             <div class="row">
                                 <div class="col-md-12">
                                     <strong>
@@ -157,41 +167,21 @@
                                             <% } %>   
                                         <% } %>  
                                     </strong>
-                                    <span class="pull-right">10 days ago</span>
-                                    <p>
-                                        <%= comment.text %>
-                                        <!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editComment"> Edit </button>
-                                        <br><br>
-                                        <div class="modal fade" id="editComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Review - <strong><%# campground.name %></strong></h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <strong>Author : Author  </strong>
-                                                        <form action="/campground/<%# campground._id %>/comment/<%# comment._id %>/edit" method="POST">
-                                                            <div class="form-group">
-                                                                <input class="form-control" type="text" name="comment" placeholder="Review" value="<%# comment.text %>" required  autofocus/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <div class="rating">
-                                                                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" /> <label for="star5">☆</label>
-                                                                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" /> <label for="star4">☆</label>
-                                                                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" /> <label for="star3">☆</label>
-                                                                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" /> <label for="star2">☆</label>
-                                                                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" /><label for="star1">☆</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <button class="btn btn-primary">Submit</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
-                                    </p>
+                                    <% var now = new Date(); %> 
+                                    <% var commentDate = new Date(comment.updatedAt) %>
+                                    <% var diff = Math.floor((now.getTime() - commentDate.getTime())/(1000 * 3600 * 24)) %>
+                                    <% if(diff == 0){ %>
+                                        <span class="pull-right">Today</span>
+                                    <% } else if(diff==1){ %>
+                                        <span class="pull-right">Yesterday </span>
+                                    <% } else if(diff <30){ %>
+                                        <span class="pull-right"><%= diff %> days</span>
+                                    <% } else if(diff > 30 && diff < 60){ %>
+                                        <span class="pull-right">1 month</span>
+                                    <% } else{ %>
+                                        <span class="pull-right"><%= Math.floor(diff/30) %> months</span>
+                                    <% } %>  
+                                    <p><%= text = comment.text %></p>  
                                 </div>
                             </div>               
                         <% }) %> 

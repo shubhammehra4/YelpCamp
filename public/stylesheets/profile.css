@@ -62,17 +62,6 @@ a#imglink{
     text-align: center;
 }
 
-i#icons{
-    position: relative;
-    color: red;
-    transform: scale(0);
-    transition: scale 300ms ease-in-out;
-}
-
-i#icons:hover{
-    color: rgb(160, 0, 0);
-}
-
 div.thumbnail:hover i#icons{
     transform: scale(1);
     transition: scale 300ms ease-in-out;

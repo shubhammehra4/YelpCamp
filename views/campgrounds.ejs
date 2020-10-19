@@ -85,6 +85,12 @@
                                     <p> <span class="imagename"><%= campground.name %></span></p>
                                 <% } %> 
                             </div>
+                            <% if(campground.ratingCount > 0){ %>  
+                                <% var rat = campground.ratingNumber/campground.ratingCount %>
+                            <% } else { %>
+                                <% var rat = 0 %>
+                            <% } %>
+                            <div class="Stars" style="--rating: <%= rat %> ;" aria-label="Rating of this product"></div>
                             <p>
                                 <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
                             </p>

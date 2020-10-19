@@ -26,6 +26,7 @@ div.commentbox{
     float: none;
     clear: both;
 }
+/* Comments */
 
 .rating {
     width: 90px;
@@ -62,6 +63,7 @@ div.commentbox{
     left: 0;
     color: #FFD700;
 }
+/* Review */
 :root {
     --star-size: 30px;
     --star-color: #fff;
