@@ -66,24 +66,23 @@ router.get("/profile/@:uname", isLoggedIn, function (req, res) {
         if(err){
             console.log(err);
         } else {
-            res.render("profile", {userCampgrounds: userCampgrounds});
+            Campgrounds.find({likes: req.user._id}, function (err, likedCampgrounds) {
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render("profile", {userCampgrounds: userCampgrounds, likedCampgrounds: likedCampgrounds});
+                }
+            })
         }
     })
 });
 
 router.post("/save", isLoggedIn, function (req, res) {
-    Campgrounds.findById(req.body.campgroundId, function (err, campground) {
+    Campgrounds.findByIdAndUpdate(req.body.campgroundId, {$addToSet: {likes: req.user._id}}, function (err, campground) {
         if(err){
             console.log("Error");
         } else{
-            var liked = {id: req.body.campgroundId ,name: campground.name};
-            User.findByIdAndUpdate(req.user._id, {$addToSet: {likedCampgrounds: liked}}, function (err, user) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log("Saved");
-                }
-            });
+           console.log("Liked");
         }
     });
 });

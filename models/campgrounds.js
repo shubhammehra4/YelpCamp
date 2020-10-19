@@ -22,6 +22,7 @@ var CampgroundSchema = new mongoose.Schema({
     },
     hasRated: [],
     images: [],
+    likes: [],
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,

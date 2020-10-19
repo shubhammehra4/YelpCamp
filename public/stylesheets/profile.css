@@ -1,3 +1,17 @@
+div#user{
+    margin: 70px auto;
+}
+div.userlogo{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,201,1) 50%, rgba(0,179,215,1) 100%);
+    color: white;
+    border-radius: 75px;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    font-size: 75px;
+}
+
 nav#profile{
     height: 10px;
     line-height: 10px;

@@ -1,14 +1,21 @@
 <%- include('partials/header') %>
 <link rel="stylesheet" href="/stylesheets/profile.css"> 
-    <div class="container text-center">
-        <h1> <i class="fa fa-user-circle"></i> <%= currentUser.firstName %> <%= currentUser.lastName %>  </h1>
-        <p class="lead"><%= currentUser.email %></p>
+    <div class="container" id="user">
+        <div class="row">
+            <div class="col col-sm-3 text-center">
+                <div class="userlogo pull-right"><%= currentUser.firstName[0] %> </div>
+            </div>
+            <div class="col col-sm-9">
+                <h1><%= currentUser.firstName %> <%= currentUser.lastName %>  </h1>
+                <p class="lead"><%= currentUser.email %></p>
+            </div>
+        </div>
     </div>
     <nav class="navbar navbar-expand-lg" id="profile">
         <div class="navbar-nav" id="profile1">
-            <a class="nav-item nav-link focused" id="campgrounds" href="#">Campgrounds <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" id="likes" href="#">Likes</a>
-            <a class="nav-item nav-link" id="info" href="#">Future Info</a>
+            <a class="nav-item nav-link focused" id="campgrounds">Campgrounds <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" id="likes">Likes</a>
+            <a class="nav-item nav-link" id="info">Info</a>
         </div>
     </nav>
     <!-- <hr> -->
@@ -29,6 +36,31 @@
                     </div> 
                 <% }) %>  
             </div>
+        </div>
+    </div>
+    <div id="likedShow" style="display: none;">
+        <div class="container">
+            <h1>Liked</h1>
+            <div class="row text-center">
+                <% likedCampgrounds.forEach(function(campground){ %>
+                    <div class="col-md-3 col-sm-6 pad">
+                        <div class="thumbnail">
+                                <img src="<%= campground.coverImage %> " style="width:100%">
+                                <div class="caption">
+                                    <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart" id="icons" aria-hidden="true"></i></p>
+                                </div>
+                                <p>
+                                    <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
+                                </p>
+                        </div>
+                    </div> 
+                <% }) %>  
+            </div>
+        </div>
+    </div>
+    <div id="info" style="display: none;">
+        <div class="container">
+            <h1>hELLO</h1>
         </div>
     </div>
 <script src="/scripts/profile.js"></script>
