@@ -35,8 +35,12 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
         description: req.body.description,
         author:cAuthor,
         pricing: req.body.pricing,
-        address: req.body.address
+        address: req.body.address,
+        startMonth: req.body.startmonth,
+        endMonth: req.body.endmonth
     });
+    // console.log(req.body.startmonth);
+    // console.log(req.body.endmonth);
     if(req.body.refer){
         newCampground.webLink = req.body.refer
     }
@@ -91,7 +95,9 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, function (req, res)
         coverImage: req.body.image,
         description: req.body.description,
         pricing: req.body.pricing,
-        address: req.body.address
+        address: req.body.address,
+        startMonth: req.body.startmonth,
+        endMonth: req.body.endmonth
     };
     Campgrounds.findByIdAndUpdate(req.params.id, updatedCampground, function (err, campground) {
         if(err){

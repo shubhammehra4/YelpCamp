@@ -12,7 +12,6 @@
             </div>
             <div class="form-group">
                 <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="5"><%= campground.description %></textarea>
-                <!-- <input class="form-control" type="text-box" placeholder="Description" name="description" required> -->
             </div>
             <div class="form-group">
                 <input class="form-control" type="number" min="0" placeholder="Pricing" name="pricing" value="<%= campground.pricing %>" required><span class="pull-right">*Rs/night</span> 
@@ -22,6 +21,38 @@
             </div>
             <div class="form-group">
                 <input class="form-control" type="text" placeholder="Address" name="address" value="<%= campground.address %> ">
+            </div>
+            <div class="form-group"> 
+                <select name="startmonth" class="form-control pull-left" style="width: 45%;">
+                    <option selected >Start</option>
+                    <option value="Jan" >Jan</option>
+                    <option value="Feb" >Feb</option>
+                    <option value="Mar" >Mar</option>
+                    <option value="Apr" >Apr</option>
+                    <option value="May" >May</option>
+                    <option value="Jun" >Jun</option>
+                    <option value="Jul" >Jul</option>
+                    <option value="Aug" >Aug</option>
+                    <option value="Sep" >Sep</option>
+                    <option value="Oct" >Oct</option>
+                    <option value="Nov" >Nov</option>
+                    <option value="Dec" >Dec</option>
+                </select>
+                <select name="endmonth" class="form-control pull-right" style="width: 45%;"> 
+                    <option selected >End</option>
+                    <option value="Jan" >Jan</option>
+                    <option value="Feb" >Feb</option>
+                    <option value="Mar" >Mar</option>
+                    <option value="Apr" >Apr</option>
+                    <option value="May" >May</option>
+                    <option value="Jun" >Jun</option>
+                    <option value="Jul" >Jul</option>
+                    <option value="Aug" >Aug</option>
+                    <option value="Sep" >Sep</option>
+                    <option value="Oct" >Oct</option>
+                    <option value="Nov" >Nov</option>
+                    <option value="Dec" >Dec</option>
+                </select>
             </div>
             <div class="form-group text-center">
                 <button class="btn btn-primary">Update</button>

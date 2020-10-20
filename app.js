@@ -73,7 +73,12 @@ app.use(indexRoutes);
 /** 
  * TODO: 
  * TODO: Comments CRUD
- * TODO: add like functionality  
+ * TODO: Edit Profile Fields
+ * TODO: Gmaps integration
+ * TODO: Link Google account
+ * TODO: Campgrounds Categories
+ * TODO: Mailing System
+ * TODO: Stats
 */
 
 

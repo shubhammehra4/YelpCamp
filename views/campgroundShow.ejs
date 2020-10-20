@@ -41,7 +41,7 @@
                 <div class="card info">
                     <div class="card-header"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Best Time to visit</strong></div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Info 1</li>
+                        <li class="list-group-item"><%= campground.startMonth %> - <%= campground.endMonth %></li>
                     </ul>
                 </div>
                 <div class="card info">
@@ -55,7 +55,7 @@
                 <div class="card info">
                     <div class="card-header"><strong><i class="fa fa-globe" aria-hidden="true"></i> Booking</strong></div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"> optional Info 5</li>
+                        <li class="list-group-item"> <a href="<%= campground.webLink %>">Book Now!</a></li>
                     </ul>
                 </div>
                 <p>
@@ -68,7 +68,7 @@
                     <div class="caption">    
                         <h4 class="pull-right">$ <%= campground.pricing %>/night</h4>
                         
-                        <h4><a href="<%= campground.webLink %>"><%= campground.name %></a></h4>
+                        <h4><%= campground.name %></h4>
                         <% if(campground.ratingCount > 0){ %>  
                             <% var rat = campground.ratingNumber/campground.ratingCount %>
                         <% } else { %>
@@ -76,9 +76,9 @@
                         <% } %>
                         <div class="Stars" style="--rating: <%= rat %> ;" aria-label="Rating of this product"></div>
                         <% if(campground.ratingCount == 1){ %>
-                            <%= campground.ratingCount %> review
+                            <span style="color: gray; font-size: large;"><%= campground.ratingCount %> review</span>
                         <% } else if(campground.ratingCount > 1){ %>
-                            <%= campground.ratingCount %> reviews
+                            <span style="color: gray; font-size: large;"><%= campground.ratingCount %> reviews</span>
 
                         <% } %> 
                         <p class="p-3" style="font-size: large;">
