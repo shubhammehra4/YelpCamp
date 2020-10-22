@@ -189,23 +189,4 @@ function checkCampgroundOwnership(req, res, next) {
     }
 };
 
-// function hasRated(req, res, next) {
-//     Campgrounds.findById(req.params.id, function (err, campground) {
-//         if(err){
-//             console.log(err);
-//         } else{
-//             for (let i = 0; i < campground.hasRated.length; i++) {
-//                 const ele = campground.hasRated[i];
-//                 if(ele.toString() == req.user._id.toString()){
-//                     // req.flash("error", "Already Reviewed");\
-//                     console.log('yes');
-//                     res.redirect("/campground/"+campground._id);
-//                     break;
-//                 }
-//             }
-//             next();
-//         }
-//     });
-// }
-
 module.exports = router;

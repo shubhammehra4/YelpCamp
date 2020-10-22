@@ -67,6 +67,10 @@ div.thumbnail:hover i#icons{
     transition: scale 300ms ease-in-out;
 }
 
+a.nav-item:hover{
+    cursor: pointer;
+}
+
 .focused{
     border-bottom: black solid 3px;
     color: black !important;

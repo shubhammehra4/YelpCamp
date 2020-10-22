@@ -80,7 +80,11 @@
                             <img src="<%= campground.coverImage %> " style="width:100%">
                             <div class="caption">
                                 <% if(currentUser){ %>
-                                    <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></p>
+                                    <% if(campground.likes.includes(currentUser._id.toString())){ %>
+                                        <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></p>
+                                    <% } else{ %>
+                                        <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart-o icon-o" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></p>
+                                    <% } %> 
                                 <% } else{ %>
                                     <p> <span class="imagename"><%= campground.name %></span></p>
                                 <% } %> 
@@ -100,7 +104,7 @@
         </div>
     </div>
     <script>
-        $('i.icon').click(function () {
+        $('i.icon-o').click(function () {
             var campgroundId = $(this).attr('campgroundid');
             // console.log(campgroundId);
             $.ajax({
@@ -111,6 +115,8 @@
             .done(function(){
                 console.log("done");
             });
+            $(this).removeClass('fa-heart-o');
+            $(this).addClass('fa-heart');
         })
     </script>
 <%- include('partials/footer') %> 
