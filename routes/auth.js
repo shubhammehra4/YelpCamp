@@ -87,6 +87,27 @@ router.post("/save", isLoggedIn, function (req, res) {
     });
 });
 
+router.put("/pedit/:id", isLoggedIn, function (req, res) {
+    if(req.params.id.toString() == req.user._id.toString()){
+        var updatedUser = {
+            firstName: req.body.firstName.charAt(0).toUpperCase() + req.body.firstName.slice(1),
+            lastName : req.body.lastName.charAt(0).toUpperCase() + req.body.lastName.slice(1),
+            email    : req.body.email,
+            phoneNumber : req.body.phoneNumber,
+            description: req.body.description,
+        }
+        User.findByIdAndUpdate(req.user._id, updatedUser, function (err) {
+            if(err){
+                res.redirect("back");
+            } else {
+                req.flash("success", "Profile Updated");
+                res.redirect("/profile/@"+req.body.username);
+            }
+        })
+    } else {
+        res.redirect("back");
+    }
+});
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){

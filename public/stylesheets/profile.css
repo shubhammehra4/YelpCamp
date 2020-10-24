@@ -75,3 +75,13 @@ a.nav-item:hover{
     border-bottom: black solid 3px;
     color: black !important;
 }
+
+.form-control{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.red{
+    color: red;
+}
+

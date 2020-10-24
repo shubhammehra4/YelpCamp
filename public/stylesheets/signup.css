@@ -5,7 +5,8 @@ div.card{
     border-radius: 10px;
     width: 60%;
     padding: 0 2rem;
-    margin: 10rem auto;
+    margin: auto;
+    margin-top: 10vh;
 }
 
 div.sign-up-icons{
@@ -58,4 +59,8 @@ input.form-control{
     outline: none !important;
     box-shadow: none !important;
     border-bottom: 2px solid black !important;
+}
+
+.red{
+    color: red;
 }

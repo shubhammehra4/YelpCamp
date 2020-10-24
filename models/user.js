@@ -7,7 +7,9 @@ var UserSchema = new mongoose.Schema({
     lastName: String,
     username: { type: String, unique: true },
     email: { type: String, unique: true },
+    phoneNumber: Number,
     googleid: String,
+    description: String,
     password: String,
 }, { timestamps: true });
 

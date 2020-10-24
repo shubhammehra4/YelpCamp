@@ -72,7 +72,6 @@ app.use(indexRoutes);
 
 /** 
  * TODO: 
- * TODO: Edit Profile Fields
  * TODO: Gmaps integration
  * TODO: Link Google account
  * TODO: Campgrounds Categories

@@ -42,13 +42,13 @@
         <% if(error && error.length > 0){ %>
             <div class="alert alert-danger" role="alert">
                 <%= error %>
-                <a class = "close">X</a>
+                <a class = "close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
             </div>
             <script>
                 $(document).ready(function() {
                     setTimeout(function() {
                         $('div#popup').slideUp();
-                    }, 3000);
+                    }, 2500);
                 });
                 $('a.close').click(function () {
                     $('div#popup').slideUp();
@@ -58,13 +58,13 @@
         <% if(success && success.length > 0){ %>
             <div class="alert alert-success" role="alert">
                 <%= success %>
-                <a class = "close">X</a>
+                <a class = "close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
             </div>
             <script>
                 $(document).ready(function() {
                     setTimeout(function() {
                         $('div#popup').slideUp();
-                    }, 3000);
+                    }, 2500);
                 });
                 $('a.close').click(function () {
                     $('div#popup').slideUp();

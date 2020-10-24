@@ -1,4 +1,38 @@
 <%- include('partials/header') %>
+<div class="container" id="popup" style="margin-top: 10px;">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+            <a class = "close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+        </div>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('div#popup').slideUp();
+                },2500);
+            });
+            $('a.close').click(function () {
+                $('div#popup').slideUp();
+            })
+        </script>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+            <a class = "close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+        </div>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('div#popup').slideUp();
+                }, 2500);
+            });
+            $('a.close').click(function () {
+                $('div#popup').slideUp();
+            })
+        </script>
+    <% } %>
+</div>
 <link rel="stylesheet" href="/stylesheets/profile.css"> 
     <div class="container" id="user">
         <div class="row">
@@ -30,7 +64,7 @@
                                     <p> <span class="imagename"><%= campground.name %></span></p>
                                 </div>
                                 <p>
-                                    <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
+                                    <a href="/campground/<%= campground._id %>" class="btn btn-primary">View</a>
                                 </p>
                         </div>
                     </div> 
@@ -49,7 +83,7 @@
                                     <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart" style="color: red;" id="icons" aria-hidden="true"></i></p>
                                 </div>
                                 <p>
-                                    <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
+                                    <a href="/campground/<%= campground._id %>" class="btn btn-primary">Visit</a>
                                 </p>
                         </div>
                     </div> 
@@ -59,11 +93,35 @@
     </div>
     <div id="profileEdit" style="display: none;">
         <div class="container">
-            <h3 class="text-center">Edit Profile</h3>
-            <form action="" method="post">
-                <!-- <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Name" name="name" required >
-                </div> -->
+            <form action="/pedit/<%= currentUser._id %>?_method=PUT" method="post">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <label>Fisrst Name<span class="red">*</span></label>
+                            <input type="text" class="form-control" name="firstName" placeholder="First Name" value="<%= currentUser.firstName %>" required />
+                        </div>
+                        <div class="col">
+                            <label>Last Name<span class="red">*</span> </label>
+                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" value="<%= currentUser.lastName %>" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email </label>
+                    <input class="form-control" type="email" name="email" placeholder="Email" value="<%= currentUser.email %>" />
+                </div>
+                <div class="form-group">
+                    <label>Phone No. </label>
+                    <input class="form-control" type="number" name="phoneNumber" placeholder="Phone No." value="<%= currentUser.phoneNumber %>" />
+                </div>
+                <div class="form-group">
+                    <label>Description </label>
+                    <br>
+                    <textarea class="form-control" name="description" placeholder="About Me" cols="155" rows="3"><%= currentUser.description %></textarea>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary">Edit</button>
+                </div>
             </form>
         </div>
     </div>
