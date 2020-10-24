@@ -150,7 +150,9 @@
                                 </div>
                             </div>
                         <% } else { %>
-                            <a class="btn btn-danger pull-right" href="#">Delete Review</a> 
+                            <form action="/campground/<%= campground._id %>/comment/<%= currentUser._id %>?_method=delete" method="post">
+                                <button class="btn btn-xs btn-danger pull-right">Delete Review</button> 
+                            </form>
                             <br><br>
                         <% } %> 
                     <% } %> 

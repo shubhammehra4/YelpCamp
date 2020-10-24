@@ -154,10 +154,33 @@ router.post("/campground/:id/comment", isLoggedIn, function (req, res) {
     });
 });
 
-// router.post("/campground/:id/comment/:cid/edit", function (req, res) {
-//     res.redirect("/campgrounds");
-//     console.log("Ran");
-// });
+router.delete("/campground/:id/comment/:uid",isLoggedIn, function (req, res) {
+    if(req.params.uid.toString() == req.user._id.toString()){
+        Campgrounds.findById(req.params.id, function(err, campground) {
+            if(err){
+                req.flash("error", "Please Try Again!");
+                res.redirect("back");
+            } else {
+                Comment.findOneAndRemove({author: {id: req.user._id, username: req.user.username}}, function (err, comment) {
+                    if(err){
+                        req.flash("error", "Please Try Again!");
+                        res.redirect("back");
+                    } else {
+                        campground.comments.pull(comment);
+                        campground.ratingCount -= 1;
+                        campground.ratingNumber -= Number(comment.rating);
+                        campground.hasRated.pull(req.user._id);
+                        campground.save();
+                        req.flash("success", "Deleted Review");
+                        res.redirect("/campground/" + req.params.id);
+                    }
+                });
+            }
+        });
+    } else {
+        res.redirect("back");
+    }
+});
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){

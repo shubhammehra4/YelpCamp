@@ -22,7 +22,7 @@ app                   = express();
 dotenv.config();
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static("public")); 
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
@@ -72,7 +72,6 @@ app.use(indexRoutes);
 
 /** 
  * TODO: 
- * TODO: Comments CRUD
  * TODO: Edit Profile Fields
  * TODO: Gmaps integration
  * TODO: Link Google account

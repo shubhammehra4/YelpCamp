@@ -2,21 +2,21 @@ $('a#campgrounds').click( function () {
     $('a.nav-link').removeClass("focused");
     $(this).addClass("focused");
     $('div#likedShow').hide();
-    $('div#info').hide();
+    $('div#profileEdit').hide();
     $('div#campgroundsShow').show();
 
 });
 $('a#likes').click( function () {
     $('a.nav-link').removeClass("focused");
     $(this).addClass("focused");
-    $('div#info').hide();
+    $('div#profileEdit').hide();
     $('div#campgroundsShow').hide();
     $('div#likedShow').show();
 });
-$('a#info').click( function () {
+$('a#profileEdit').click( function () {
     $('a.nav-link').removeClass("focused");
     $(this).addClass("focused");
     $('div#likedShow').hide();
     $('div#campgroundsShow').hide();
-    $('div#info').show();
+    $('div#profileEdit').show();
 });
