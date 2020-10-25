@@ -58,9 +58,15 @@
                         <li class="list-group-item"> <a href="<%= campground.webLink %>">Book Now!</a></li>
                     </ul>
                 </div>
-                <p>
-                    <Address>Address: <%= campground.address %> </Address>
-                </p>
+                <% var add1 = campground.address.replace(" ", "%20") %> 
+                <% var address = add1.replace(",", "%2C") %> 
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="100%" height="500px" id="gmap_canvas"
+                            src="https://maps.google.com/maps?q=<%= address %>&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                            frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"></iframe>
+                    </div>
+                </div>
             </div>
             <div class="col-md-9">
                 <div class="card">

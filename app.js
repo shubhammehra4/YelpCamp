@@ -72,7 +72,7 @@ app.use(indexRoutes);
 
 /** 
  * TODO: 
- * TODO: Gmaps integration
+ * TODO: Address Validation
  * TODO: Link Google account
  * TODO: Campgrounds Categories
  * TODO: Mailing System
