@@ -1,27 +1,36 @@
 <%- include('partials/header') %>
-    <div class="jumbotron">
+    <div class="jumbotron text-center">
         <h1>Edit <%= campground.name %> </h1>
     </div>
     <div class="container">
         <form action="/campground/<%= campground._id %>/edit?_method=PUT" method="post">
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="Name" name="name" value="<%= campground.name %> " required >
+                <label>Name<span class="red">*</span></label>
+                <input class="form-control" type="text" placeholder="Name" name="name" value="<%= campground.name %>" required >
             </div>
             <div class="form-group">
-                <input class="form-control" type="url" placeholder="Image URL" name="image" value="<%= campground.coverImage %> " required>
+                <label>Image url<span class="red">*</span></label>
+                <input class="form-control" type="url" placeholder="Image URL" name="image" value="<%= campground.coverImage %>" required>
             </div>
             <div class="form-group">
-                <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="5"><%= campground.description %></textarea>
+                <label>Description<span class="red">*</span></label>
+                <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="2"><%= campground.description %></textarea>
             </div>
             <div class="form-group">
+                <label>Pricing<span class="red">*</span></label>
                 <input class="form-control" type="number" min="0" placeholder="Pricing" name="pricing" value="<%= campground.pricing %>" required><span class="pull-right">*Rs/night</span> 
             </div>
             <div class="form-group">
-                <input class="form-control" type="url" placeholder="Refer Link" name="refer" value="<%= campground.webLink %> " required>
+                <label>Booking</label>
+                <input class="form-control" type="url" placeholder="Refer Link" name="refer" value="<%= campground.webLink %>">
+                (Optional)
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="Address" name="address" value="<%= campground.address %> ">
+                <label>Location<span class="red">*</span></label>
+                <input class="form-control" type="text" placeholder="Address" name="address" required value="<%= campground.address %>">
+                <small>(Please Enter a valid Address)</small>
             </div>
+            <label>Best Time to Visit</label> 
             <div class="form-group"> 
                 <select name="startmonth" class="form-control pull-left" style="width: 45%;">
                     <option selected >Start</option>
@@ -54,7 +63,7 @@
                     <option value="Dec" >Dec</option>
                 </select>
             </div>
-            <div class="form-group text-center">
+            <div class="form-group text-center" style="margin-top: 60px;">
                 <button class="btn btn-primary">Update</button>
             </div>
         </form>
@@ -66,6 +75,9 @@
         }
         input.form-control{
             box-shadow: none !important;
+        }
+        .red{
+            color: red;
         }
     </style>
 <%- include('partials/footer') %>

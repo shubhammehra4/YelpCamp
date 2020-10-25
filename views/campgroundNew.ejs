@@ -5,25 +5,33 @@
     <div class="container">
         <form action="/campgrounds/new" method="post">
             <div class="form-group">
+                <label>Name<span class="red">*</span></label>
                 <input class="form-control" type="text" placeholder="Name" name="name" required autofocus>
             </div>
             <div class="form-group">
+                <label>Image url<span class="red">*</span></label>
                 <input class="form-control" type="url" placeholder="Image URL" name="image" required>
             </div>
             <div class="form-group">
-                <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="5"></textarea>
-                <!-- <input class="form-control" type="text-box" placeholder="Description" name="description" required> -->
+                <label>Description<span class="red">*</span></label>
+                <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="2"></textarea>
             </div>
             <div class="form-group">
+                <label>Pricing<span class="red">*</span></label>
                 <input class="form-control" type="number" min="0" placeholder="Pricing" name="pricing" required><span class="pull-right">*Rs/night</span> 
             </div>
             <div class="form-group">
+                <label>Booking</label>
                 <input class="form-control" type="url" placeholder="Refer Link" name="refer">
+                (Optional)
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="Address" name="address">
+                <label>Location<span class="red">*</span></label>
+                <input class="form-control" type="text" placeholder="Address" name="address" required>
+                <small>(Please Enter a valid Address)</small>
             </div>
-            <div class="form-group"> 
+            <label>Best Time to Visit</label> 
+            <div class="form-group">
                 <select name="startmonth" class="form-control pull-left" style="width: 45%;">
                     <option selected >Start</option>
                     <option value="Jan" >Jan</option>
@@ -55,7 +63,7 @@
                     <option value="Dec" >Dec</option>
                 </select>
             </div>
-            <div class="form-group text-center" style="margin-top: 80px;">
+            <div class="form-group text-center" style="margin-top: 60px;">
                 <button class="btn btn-primary">Create</button>
             </div>
         </form>
@@ -67,6 +75,9 @@
         }
         input.form-control{
             box-shadow: none !important;
+        }
+        .red{
+            color: red;
         }
     </style>
 <%- include('partials/footer') %>

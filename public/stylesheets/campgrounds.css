@@ -44,7 +44,7 @@ div.thumbnail:hover i#icons{
 }
 
 img.preview{
-    height:500px;
+    height: 85vh;
     width: 100%;
     object-fit: cover;
     margin-bottom: 20px;
