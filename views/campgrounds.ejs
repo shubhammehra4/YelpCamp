@@ -97,40 +97,54 @@
         <% } %>
     </div>
     <div class="container">
-        <div class="row text-center">
+        <div class="row">
             <% campgrounds.forEach(function(campground){ %>
-                <div class="col-md-3 col-sm-6 pad">
-                    <div class="thumbnail">
-                            <img src="<%= campground.coverImage %> " style="width:100%">
-                            <div class="caption">
+                <div class="col-sm-12 col-md-6 col-lg-4 pad indexCards">
+                    <div class="card thumbnail shadow border-0 mt-4">
+                        <a href="/campground/<%= campground._id %>">
+                            <img src="<%= campground.coverImage %>" style="width:100%">
+                        </a>
+                        <div class="card-body">
+                            <h6 class="card-title text-capitalize" style="font-weight: 400 !important;">
                                 <% if(currentUser){ %>
                                     <% if(campground.likes.includes(currentUser._id.toString())){ %>
-                                        <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></p>
+                                        <a href="/campground/<%= campground._id %>"> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></a>
                                     <% } else{ %>
-                                        <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart-o icon-o" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></p>
+                                        <a href="/campground/<%= campground._id %>"> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart-o icon-o" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></a>
                                     <% } %> 
                                 <% } else{ %>
-                                    <p> <span class="imagename"><%= campground.name %></span></p>
-                                <% } %> 
-                            </div>
-                            <% if(campground.ratingCount > 0){ %>  
-                                <% var rat = campground.ratingNumber/campground.ratingCount %>
-                            <% } else { %>
-                                <% var rat = 0 %>
-                            <% } %>
-                            <div class="Stars" style="--rating: <%= rat %> ;" aria-label="Rating of this product"></div>
-                            <p>
-                                <a href="/campground/<%= campground._id %>" class="btn btn-primary">More info</a>
-                            </p>
+                                    <a href="/campground/<%= campground._id %>"> <span class="imagename"><%= campground.name %></span></a>
+                                <% } %>
+                            </h6>
+                            <h6 class="card-subtitle">
+                                <% if(campground.ratingCount > 0){ %>  
+                                    <% var rat = campground.ratingNumber/campground.ratingCount %>
+                                    <% if(campground.ratingCount > 1){ %> 
+                                        <spam class="text-muted"><%= campground.ratingCount %> Reviews</spam>
+                                    <% } else { %>
+                                        <spam class="text-muted"><%= campground.ratingCount %> Review</spam>
+                                        <% } %>  
+                                    <div class="Stars" style="--rating: <%= rat %>;" aria-label="Rating of this product"></div>
+                                <% } else { %>
+                                    <spam class="text-muted">0 Reviews</spam>
+                                <% } %>
+                            </h6>
+                        </div>
+                        
                     </div>
                 </div> 
             <% }) %>  
         </div>
     </div>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+        ScrollReveal().reveal('.indexCards', {
+            interval: 150, mobile: true, viewFactor: 0.3
+        });
+    </script>
     <script>
         $('i.icon-o').click(function () {
             var campgroundId = $(this).attr('campgroundid');
-            // console.log(campgroundId);
             $.ajax({
                 method: "POST",
                 url: "/save",

@@ -18,7 +18,7 @@ div.thumbnail:hover{
 }
 
 span.imagename{
-    font-size: 30px;
+    font-size: 2rem;
 }
 
 a#imglink{
@@ -56,10 +56,10 @@ div.carousel-caption{
 
 /* Review */
 :root {
-    --star-size: 30px;
+    --star-size: 26px;
     --star-color: #fff;
     --star-background: #fc0;
-    }
+}
 
 .Stars {
     --percent: calc(var(--rating) / 5 * 100%);
@@ -69,8 +69,8 @@ div.carousel-caption{
     line-height: 1;
 }
 .Stars::before {
-    content: '★★★★★';
-    letter-spacing: 3px;
+    content: '★★★★★'; 
+    letter-spacing: 1px;
     background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
     background-clip: text;
     -webkit-background-clip: text;
