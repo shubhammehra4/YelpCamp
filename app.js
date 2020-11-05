@@ -30,31 +30,6 @@ app.use(require("express-session")({ secret: "web dev", resave: false, saveUnini
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-// passport.use(new GoogleStrategy({
-//         callbackURL: "/auth/google/callback",
-//         clientID: process.env.clientID,
-//         clientSecret: process.env.clientSecret
-//     }, (accessToken, refreshToken, profile, done) => {
-//         //callback 
-//         console.log(profile);
-//         User.findOne({googleid: profile.id}).then(function (existingUser) {
-//             if(existingUser){
-//                 done(null, existingUser);
-//             } else{
-//                 new User({
-//                     firstName: profile.name.givenName,
-//                     lastName: profile.name.familyName,
-//                     username: profile._json.email,
-//                     email: profile._json.email,
-//                     googleid: profile.id
-//                 }).save().then((newUser)=> {
-//                     // console.log(newUser);
-//                     done(null, newUser);
-//                 });
-//             }
-//         })        
-//     })
-// )
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());    
 app.use(function (req, res, next) {
@@ -72,7 +47,6 @@ app.use(indexRoutes);
 
 /** 
  * TODO: 
- * TODO: Address Validation
  * TODO: Campgrounds Categories
  * TODO: Mailing System
  * TODO: Stats
