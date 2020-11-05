@@ -10,10 +10,6 @@ router.get("/aboutus", function (req, res) {
     res.send("Hello");
 });
 
-router.get("/resources", function (req, res) {
-    res.send("Hello");
-});
-
 // router.get("*", function (req, res) {
 //     res.send("Return to home nothing here");
 // });

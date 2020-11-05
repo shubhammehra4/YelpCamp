@@ -8,7 +8,7 @@ var CampgroundSchema = new mongoose.Schema({
     ratingNumber :  { type: Number, default: 0 },
     ratingCount  : { type: Number, default: 0 },
     address      : String,
-    webLink      : String,
+    contact      : Number,
     startMonth   : String,
     endMonth     : String,
     loaction: {

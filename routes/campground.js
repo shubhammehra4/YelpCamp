@@ -41,8 +41,8 @@ router.post("/campgrounds/new", isLoggedIn,function (req, res) {
     });
     // console.log(req.body.startmonth);
     // console.log(req.body.endmonth);
-    if(req.body.refer){
-        newCampground.webLink = req.body.refer
+    if(req.body.contact){
+        newCampground.contact = req.body.contact
     }
     Campgrounds.create(newCampground, function (err, campground) {
         if(err){
@@ -97,7 +97,8 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, function (req, res)
         pricing: req.body.pricing,
         address: req.body.address,
         startMonth: req.body.startmonth,
-        endMonth: req.body.endmonth
+        endMonth: req.body.endmonth,
+        contact : req.body.contact
     };
     Campgrounds.findByIdAndUpdate(req.params.id, updatedCampground, function (err, campground) {
         if(err){

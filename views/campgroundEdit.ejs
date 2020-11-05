@@ -18,17 +18,16 @@
             </div>
             <div class="form-group">
                 <label>Pricing<span class="red">*</span></label>
-                <input class="form-control" type="number" min="0" placeholder="Pricing" name="pricing" value="<%= campground.pricing %>" required><span class="pull-right">*Rs/night</span> 
+                <input class="form-control" type="number" min="0" placeholder="Price/Night" name="pricing" value="<%= campground.pricing %>" required><span class="pull-right text-muted">*$/night</span> 
             </div>
             <div class="form-group">
-                <label>Booking</label>
-                <input class="form-control" type="url" placeholder="Refer Link" name="refer" value="<%= campground.webLink %>">
-                (Optional)
+                <label>Contact</label>
+                <input class="form-control" type="number" placeholder="123-456-7891" name="contact" value="<%= campground.contact %>">
             </div>
             <div class="form-group">
                 <label>Location<span class="red">*</span></label>
-                <input class="form-control" type="text" placeholder="Address" name="address" required value="<%= campground.address %>">
-                <small>(Please Enter a valid Address)</small>
+                <input class="form-control" type="text" placeholder="Yosemite National Park, CA" name="address" required value="<%= campground.address %>">
+                <small class="text-muted">(Please Enter a valid Address)</small>
             </div>
             <label>Best Time to Visit</label> 
             <div class="form-group"> 
