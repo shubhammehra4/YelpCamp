@@ -14,7 +14,7 @@ Comment               = require('./models/comment'),
 indexRoutes           = require("./routes/index"),
 campgroundsRoutes     = require("./routes/campground"),
 authRoutes            = require("./routes/auth"),
-// seedDB                = require('./seeds'),
+// seedDB                = require('./Seed/seeds'),
 app                   = express();
 
 
