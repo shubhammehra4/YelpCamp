@@ -39,9 +39,12 @@
             <div class="col col-sm-3 text-center">
                 <div class="userlogo pull-right"><%= currentUser.firstName[0] %> </div>
             </div>
-            <div class="col col-sm-9">
+            <div class="col col-sm-9" style="font-family: Arial, Helvetica, sans-serif;">
                 <h1><%= currentUser.firstName %> <%= currentUser.lastName %>  </h1>
                 <p class="lead"><%= currentUser.email %></p>
+                <% if(currentUser.description){ %>
+                    <p style="color: #6c757d;"><%= currentUser.description %> </p>
+                <% } %> 
             </div>
         </div>
     </div>

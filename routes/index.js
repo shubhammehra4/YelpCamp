@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
     });
 
 router.get("/aboutus", (req, res) => {
-        res.send("Hello");
+        res.render('about');
     });
 
 function isLoggedIn(req, res, next) {

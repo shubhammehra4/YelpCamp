@@ -47,7 +47,7 @@ app.use(indexRoutes);
 
 /** 
  * TODO: 
- * TODO: Campgrounds Categories
+ * TODO: Campgrounds Categories && sortby
  * TODO: Mailing System
  * TODO: Stats
 */
