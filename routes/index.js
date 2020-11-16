@@ -1,18 +1,13 @@
 const express         = require('express'),
 router = express.Router();
 
-router.get("/", function(req, res){
-    res.render('index');
-});
+router.get("/", (req, res) => {
+        res.render('index');
+    });
 
-
-router.get("/aboutus", function (req, res) {
-    res.send("Hello");
-});
-
-// router.get("*", function (req, res) {
-//     res.send("Return to home nothing here");
-// });
+router.get("/aboutus", (req, res) => {
+        res.send("Hello");
+    });
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){

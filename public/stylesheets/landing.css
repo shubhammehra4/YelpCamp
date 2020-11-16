@@ -10,8 +10,24 @@ body{
 }
 
 #landing-header{
-    text-shadow: 1px 1px 2px black;
     color: white;
+    opacity: 0;
+    margin-top: 100px;
+    animation: 1s slidecontent 1s forwards;
+    font-family: 'Open-sans', sans-serif;
+}
+
+#landing-header h1{
+    text-shadow: 1px 1px 2px black;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 800;
+}
+
+@keyframes slidecontent{
+    100%{
+        opacity: 1;
+        margin: 0;
+    }
 }
 
 .slideshow{
