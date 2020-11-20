@@ -42,11 +42,10 @@ app.use(indexRoutes);
 app.use(authRoutes);
 app.use(campgroundsRoutes);
 
-//!                 DB
+//!                 DEBUG DB
 // seedDB();
 
 /** 
- * TODO: 
  * TODO: Campgrounds Categories && sortby
  * TODO: Mailing System
  * TODO: Stats
