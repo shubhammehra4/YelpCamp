@@ -110,10 +110,10 @@
                             <h6 class="card-title text-capitalize" style="font-weight: 400 !important;">
                                 <% if(currentUser){ %>
                                     <% if(campground.likes.includes(currentUser._id.toString())){ %>
-                                        <a href="/campground/<%= campground._id %>" style="text-decoration: none;"> <span class="imagename"><%= campground.name %></span>&nbsp; &nbsp;<i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></a> 
+                                        <a href="/campground/<%= campground._id %>" style="text-decoration: none;"> <span class="imagename"><%= campground.name %></span>&nbsp; &nbsp;</a><i class="fa fa-heart icon" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i> 
                                         <p class="float-right text-muted"><%= rate %> </p>
                                     <% } else{ %>
-                                        <a href="/campground/<%= campground._id %>" style="text-decoration: none;"> <span class="imagename"><%= campground.name %></span>&nbsp; &nbsp;<i class="fa fa-heart-o icon-o" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i></a>
+                                        <a href="/campground/<%= campground._id %>" style="text-decoration: none;"> <span class="imagename"><%= campground.name %></span>&nbsp; &nbsp;</a><i class="fa fa-heart-o icon-o" id="icons" campgroundid = "<%= campground._id %>" aria-hidden="true"></i>
                                         <p class="float-right text-muted"><%= rate %> </p>
                                     <% } %> 
                                 <% } else{ %>
@@ -162,11 +162,14 @@
                 url: "/save",
                 data: {campgroundId: campgroundId}
             })
-            .done(function(){
-                console.log("done");
-            });
-            $(this).removeClass('fa-heart-o');
-            $(this).addClass('fa-heart');
-        })
+            .done((res) => {
+                $(this).removeClass('fa-heart-o');
+                $(this).addClass('fa-heart');
+                console.log(res);
+            })
+            .fail(function(err){
+                console.log(err);
+            })
+        });
     </script>
 <%- include('partials/footer') %> 

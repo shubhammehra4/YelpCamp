@@ -14,7 +14,7 @@ Comment               = require('./models/comment'),
 indexRoutes           = require("./routes/index"),
 campgroundsRoutes     = require("./routes/campground"),
 authRoutes            = require("./routes/auth"),
-// seedDB                = require('./Seed/seeds'),
+seedDB                = require('./Seed/seeds'),
 app                   = express();
 
 
@@ -43,7 +43,7 @@ app.use(campgroundsRoutes);
 app.use(indexRoutes);
 
 //!                 DB
-// seedDB();
+seedDB();
 
 /** 
  * TODO: 

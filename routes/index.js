@@ -1,16 +1,16 @@
-const express         = require('express'),
-router = express.Router();
+const express = require('express'),
+    router = express.Router();
 
 router.get("/", (req, res) => {
-        res.render('index');
-    });
+    res.render('index');
+});
 
 router.get("/aboutus", (req, res) => {
-        res.render('about');
-    });
+    res.render('about');
+});
 
 function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         return next();
     }
     // req.flash("error", "Please Login First!");
