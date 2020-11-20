@@ -10,7 +10,7 @@ router.get("/campgrounds", (req, res) => {
     Campgrounds.find({}, (err, allcampgrounds) => {
         if (err) {
             console.log(err);
-            // flash error : Please try again
+            //! flash error : Please try again
             res.redirect("/");
         } else {
             res.render('campgrounds', { campgrounds: allcampgrounds });
@@ -39,8 +39,6 @@ router.post("/campgrounds/new", isLoggedIn, (req, res) => {
         startMonth: req.body.startmonth,
         endMonth: req.body.endmonth
     });
-    // console.log(req.body.startmonth);
-    // console.log(req.body.endmonth);
     if (req.body.contact) {
         newCampground.contact = req.body.contact;
     }
@@ -87,7 +85,7 @@ router.get("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
             res.render('campgroundEdit', { campground: foundCampground });
         }
     });
-})
+});
 
 router.put("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
     var updatedCampground = {
@@ -109,7 +107,27 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
             res.redirect("/campground/" + req.params.id);
         }
     });
-})
+});
+
+router.post("/save", isLoggedIn, (req, res) => {
+    Campgrounds.findByIdAndUpdate(req.body.campgroundId, { $addToSet: { likes: req.user._id } }, (err, campground) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send('Successsful');
+        }
+    });
+});
+
+router.delete("/unsave", isLoggedIn, (req, res) => {
+    Campgrounds.findByIdAndUpdate(req.body.campgroundId, { $pull: { likes: req.user._id } }, (err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send('Successsful');
+        }
+    });
+});
 
 //**                DESTROY
 
@@ -119,11 +137,11 @@ router.delete("/campground/:id/delete", checkCampgroundOwnership, (req, res) => 
             req.flash("error", "Error! Please Try Again");
             res.redirect("/campgrounds");
         }
-        // campground.comments.forEach();
+        //TODO: campground.comments.forEach();
         req.flash("success", "Deleted Campground");
         res.redirect("/campgrounds");
     });
-})
+});
 
 //**                COMMENTS
 

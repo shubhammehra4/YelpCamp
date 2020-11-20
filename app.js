@@ -14,7 +14,7 @@ Comment               = require('./models/comment'),
 indexRoutes           = require("./routes/index"),
 campgroundsRoutes     = require("./routes/campground"),
 authRoutes            = require("./routes/auth"),
-seedDB                = require('./Seed/seeds'),
+// seedDB                = require('./Seed/seeds'),
 app                   = express();
 
 
@@ -38,12 +38,12 @@ app.use(function (req, res, next) {
     res.locals.success = req.flash("success");
     next();
 });
+app.use(indexRoutes);
 app.use(authRoutes);
 app.use(campgroundsRoutes);
-app.use(indexRoutes);
 
 //!                 DB
-seedDB();
+// seedDB();
 
 /** 
  * TODO: 

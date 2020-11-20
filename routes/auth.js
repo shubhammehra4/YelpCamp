@@ -77,26 +77,6 @@ router.get("/profile/@:uname", isLoggedIn, (req, res) => {
     });
 });
 
-router.post("/save", isLoggedIn, (req, res) => {
-    Campgrounds.findByIdAndUpdate(req.body.campgroundId, { $addToSet: { likes: req.user._id } }, (err, campground) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('Successsful');
-        }
-    });
-});
-
-router.delete("/unsave", isLoggedIn, (req, res) => {
-    Campgrounds.findByIdAndUpdate(req.body.campgroundId, { $pull: { likes: req.user._id } }, (err) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('Successsful');
-        }
-    });
-})
-
 router.put("/pedit/:id", isLoggedIn, (req, res) => {
     if (req.params.id.toString() == req.user._id.toString()) {
         var updatedUser = {
