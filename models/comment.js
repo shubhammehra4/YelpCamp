@@ -4,12 +4,14 @@ var commentSchema = new mongoose.Schema({
     text: String,
     rating: Number,
     author: {
-        id:{
+        id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
         username: String
     }
-}, { timestamps: true});
+}, {
+    timestamps: true
+});
 
 module.exports = mongoose.model("Comment", commentSchema);

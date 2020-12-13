@@ -5,13 +5,21 @@ const mongoose = require("mongoose"),
 var UserSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    username: { type: String, unique: true },
-    email: { type: String, unique: true },
+    username: {
+        type: String,
+        unique: true
+    },
+    email: {
+        type: String,
+        unique: true
+    },
     phoneNumber: Number,
     googleid: String,
     description: String,
     password: String,
-}, { timestamps: true });
+}, {
+    timestamps: true
+});
 
 UserSchema.plugin(passportLocalMongoose);
 

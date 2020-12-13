@@ -4,7 +4,7 @@ const express = require('express'),
     Campgrounds = require('../models/campgrounds'),
     User = require("../models/user");
 
-router.get("/signup", isLoggedOut, (req, res) => {
+router.get("/signup", isLoggedOut, (_req, res) => {
     res.render("signup");
 });
 
@@ -15,7 +15,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
         username: req.body.username,
         email: req.body.email,
     });
-    User.register(newUser, req.body.password, (err, user) => {
+    User.register(newUser, req.body.password, (err, _user) => {
         if (err) {
             if (err.code == 11000) {
                 req.flash("error", "Email already in use!");
@@ -40,19 +40,18 @@ router.post("/signup", isLoggedOut, (req, res) => {
 //     res.redirect('/');
 // })
 
-router.get("/login", isLoggedOut, (req, res) => {
+router.get("/login", isLoggedOut, (_req, res) => {
     res.render("login");
 });
 
 router.post("/login", isLoggedOut, passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: true,
-    successRedirect: '/campgrounds',
-    successFlash: true,
-    successFlash: "Welcome!"
-}),
-    (req, res) => {
-    });
+        failureRedirect: '/login',
+        failureFlash: true,
+        successRedirect: '/campgrounds',
+        successFlash: true,
+        successFlash: "Welcome!"
+    }),
+    (_req, _res) => {});
 
 router.get("/logout", isLoggedIn, (req, res) => {
     // res.clearCookie('remember_me');
@@ -62,15 +61,25 @@ router.get("/logout", isLoggedIn, (req, res) => {
 });
 
 router.get("/profile/@:uname", isLoggedIn, (req, res) => {
-    Campgrounds.find({ author: { id: req.user._id, username: req.user.username } }, (err, userCampgrounds) => {
+    Campgrounds.find({
+        author: {
+            id: req.user._id,
+            username: req.user.username
+        }
+    }, (err, userCampgrounds) => {
         if (err) {
             console.log(err);
         } else {
-            Campgrounds.find({ likes: req.user._id }, (err, likedCampgrounds) => {
+            Campgrounds.find({
+                likes: req.user._id
+            }, (err, likedCampgrounds) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    res.render("profile", { userCampgrounds: userCampgrounds, likedCampgrounds: likedCampgrounds });
+                    res.render("profile", {
+                        userCampgrounds: userCampgrounds,
+                        likedCampgrounds: likedCampgrounds
+                    });
                 }
             });
         }

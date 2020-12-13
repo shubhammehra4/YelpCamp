@@ -1,9 +1,10 @@
-div#user{
+div#user {
     margin: 70px auto;
 }
-div.userlogo{
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,201,1) 50%, rgba(0,179,215,1) 100%);
+
+div.userlogo {
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 0, 201, 1) 50%, rgba(0, 179, 215, 1) 100%);
     color: white;
     border-radius: 75px;
     width: 150px;
@@ -12,76 +13,79 @@ div.userlogo{
     font-size: 75px;
 }
 
-nav#profile{
+nav#profile {
     height: 10px;
     line-height: 10px;
     background-color: transparent !important;
     font-size: large;
     margin-bottom: 100px;
 }
-div#profile1{
+
+div#profile1 {
     width: 100%;
     border-bottom: rgb(207, 207, 207) solid 1px;
 }
-nav#profile a{
-    color:gray;
+
+nav#profile a {
+    color: gray;
     margin-right: 50px;
     padding-bottom: 20px;
     /* border-bottom: gray solid 1px; */
 }
-nav#profile a:hover{
+
+nav#profile a:hover {
     color: black;
 }
 
 /* FROM campgrounds.css */
-div.row{
+div.row {
     display: flex;
     flex-wrap: wrap;
 }
 
-div.pad{
+div.pad {
     padding-bottom: 20px;
 }
 
-div.thumbnail{
+div.thumbnail {
     padding: 5px;
     transition: all 500ms ease-in-out;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
 }
-div.thumbnail:hover{
+
+div.thumbnail:hover {
     transform: scale(1.03);
     transition: all 300ms ease-in-out;
 }
 
-span.imagename{
+span.imagename {
     font-size: 30px;
 }
 
-a#imglink{
+a#imglink {
     text-decoration: none;
     text-align: center;
 }
 
-div.thumbnail:hover i#icons{
+div.thumbnail:hover i#icons {
     transform: scale(1);
     transition: scale 300ms ease-in-out;
 }
 
-a.nav-item:hover{
+a.nav-item:hover {
     cursor: pointer;
 }
 
-.focused{
+.focused {
     border-bottom: black solid 3px;
     color: black !important;
 }
 
-.form-control{
+.form-control {
     outline: none !important;
     box-shadow: none !important;
 }
 
-.red{
+.red {
     color: red;
 }
-

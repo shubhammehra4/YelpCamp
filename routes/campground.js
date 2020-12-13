@@ -6,21 +6,23 @@ const express = require('express'),
 
 //**                MAIN
 
-router.get("/campgrounds", (req, res) => {
+router.get("/campgrounds", (_req, res) => {
     Campgrounds.find({}, (err, allcampgrounds) => {
         if (err) {
             console.log(err);
             //! flash error : Please try again
             res.redirect("/");
         } else {
-            res.render('campgrounds', { campgrounds: allcampgrounds });
+            res.render('campgrounds', {
+                campgrounds: allcampgrounds
+            });
         }
     });
 });
 
 //**                CREATE
 
-router.get("/campgrounds/new", isLoggedIn, (req, res) => {
+router.get("/campgrounds/new", isLoggedIn, (_req, res) => {
     res.render('campgroundNew');
 });
 
@@ -42,7 +44,7 @@ router.post("/campgrounds/new", isLoggedIn, (req, res) => {
     if (req.body.contact) {
         newCampground.contact = req.body.contact;
     }
-    Campgrounds.create(newCampground, (err, campground) => {
+    Campgrounds.create(newCampground, (err, _campground) => {
         if (err) {
             if (err.code == 11000) {
                 req.flash("error", "Campground with this name already exists!");
@@ -69,7 +71,9 @@ router.get("/campground/:id", (req, res) => {
             req.flash("error", "Error! Please try again");
             res.redirect("/campgrounds");
         } else {
-            res.render("campgroundShow", { campground: foundCampground });
+            res.render("campgroundShow", {
+                campground: foundCampground
+            });
         }
     });
 });
@@ -82,7 +86,9 @@ router.get("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
             req.flash("error", "Error! Please Try Again");
             res.redirect('back');
         } else {
-            res.render('campgroundEdit', { campground: foundCampground });
+            res.render('campgroundEdit', {
+                campground: foundCampground
+            });
         }
     });
 });
@@ -110,7 +116,11 @@ router.put("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
 });
 
 router.post("/save", isLoggedIn, (req, res) => {
-    Campgrounds.findByIdAndUpdate(req.body.campgroundId, { $addToSet: { likes: req.user._id } }, (err, campground) => {
+    Campgrounds.findByIdAndUpdate(req.body.campgroundId, {
+        $addToSet: {
+            likes: req.user._id
+        }
+    }, (err, _campground) => {
         if (err) {
             res.send(err);
         } else {
@@ -120,7 +130,11 @@ router.post("/save", isLoggedIn, (req, res) => {
 });
 
 router.delete("/unsave", isLoggedIn, (req, res) => {
-    Campgrounds.findByIdAndUpdate(req.body.campgroundId, { $pull: { likes: req.user._id } }, (err) => {
+    Campgrounds.findByIdAndUpdate(req.body.campgroundId, {
+        $pull: {
+            likes: req.user._id
+        }
+    }, (err) => {
         if (err) {
             res.send(err);
         } else {
@@ -132,7 +146,7 @@ router.delete("/unsave", isLoggedIn, (req, res) => {
 //**                DESTROY
 
 router.delete("/campground/:id/delete", checkCampgroundOwnership, (req, res) => {
-    Campgrounds.findByIdAndDelete(req.params.id, (err, campground) => {
+    Campgrounds.findByIdAndDelete(req.params.id, (err, _campground) => {
         if (err) {
             req.flash("error", "Error! Please Try Again");
             res.redirect("/campgrounds");
@@ -180,7 +194,12 @@ router.delete("/campground/:id/comment/:uid", isLoggedIn, (req, res) => {
                 req.flash("error", "Please Try Again!");
                 res.redirect("back");
             } else {
-                Comment.findOneAndRemove({ author: { id: req.user._id, username: req.user.username } }, (err, comment) => {
+                Comment.findOneAndRemove({
+                    author: {
+                        id: req.user._id,
+                        username: req.user.username
+                    }
+                }, (err, comment) => {
                     if (err) {
                         req.flash("error", "Please Try Again!");
                         res.redirect("back");
@@ -218,8 +237,7 @@ function checkCampgroundOwnership(req, res, next) {
             } else {
                 if (foundCampground.author.id.equals(req.user._id)) {
                     next();
-                }
-                else {
+                } else {
                     req.flash("error", "Unauthorised Request!");
                     res.redirect("back");
                 }

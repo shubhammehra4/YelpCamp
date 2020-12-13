@@ -1,19 +1,21 @@
-body{
+body {
     background-image: url("/assets/signup.jpg");
     background-repeat: no-repeat;
     background-size: fill;
     background-position: center;
 }
-div.card{
+
+div.card {
     border-radius: 10px;
     width: 40%;
     padding: auto;
     margin: 15rem auto;
-    background-color: rgba(0,0,0, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
 }
 
-input#username ,input#password{
+input#username,
+input#password {
     border: none;
     border-bottom: 2px solid grey;
     box-shadow: none;
@@ -23,37 +25,40 @@ input#username ,input#password{
 label {
     width: 100%;
     margin-top: 30px;
-    position:relative;
-    display:inline-block;
+    position: relative;
+    display: inline-block;
 }
-    
+
 span {
-    padding:10px;
+    padding: 10px;
     pointer-events: none;
-    position:absolute;
-    left:5px;
-    top:0;
+    position: absolute;
+    left: 5px;
+    top: 0;
     transition: 0.2s;
     transition-timing-function: ease;
     transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
     color: black;
-    opacity:0.5;
+    opacity: 0.5;
 }
-  
-input#username:focus + input#password:focus  + span, input:not(:placeholder-shown) + span {
-    opacity:1;
+
+input#username:focus+input#password:focus+span,
+input:not(:placeholder-shown)+span {
+    opacity: 1;
     color: white;
     transform: scale(1) translateY(-100%) translateX(-10px);
 }
-  
-input:focus + span, input:not(:-ms-input-placeholder) + span {
-    opacity:1;
+
+input:focus+span,
+input:not(:-ms-input-placeholder)+span {
+    opacity: 1;
     transform: scale(0.75) translateY(-100%) translateX(-30px);
 }
 
-label#remlab{
+label#remlab {
     opacity: 0.5;
 }
-input[type=checkbox]:checked + label#remlab {
+
+input[type=checkbox]:checked+label#remlab {
     opacity: 1;
 }

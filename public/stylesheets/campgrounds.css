@@ -1,55 +1,57 @@
-div.row{
+div.row {
     display: flex;
     flex-wrap: wrap;
 }
 
-div.pad{
+div.pad {
     padding-bottom: 20px;
 }
 
-div.thumbnail{
+div.thumbnail {
     padding: 5px;
     transition: all 500ms ease-in-out;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
 }
-div.thumbnail:hover{
+
+div.thumbnail:hover {
     transform: scale(1.01);
     transition: all 300ms ease-in-out;
 }
 
-span.imagename{
+span.imagename {
     font-size: 2rem;
 }
 
-a#imglink{
+a#imglink {
     text-decoration: none;
     text-align: center;
 }
 
-i#icons{
+i#icons {
     position: relative;
     color: red;
     transform: scale(0);
     transition: scale 300ms ease-in-out;
 }
 
-i#icons:hover{
+i#icons:hover {
     color: rgb(160, 0, 0);
 }
 
 
-div.thumbnail:hover i#icons{
+div.thumbnail:hover i#icons {
     transform: scale(1);
     transition: scale 300ms ease-in-out;
 }
 
-img.preview{
+img.preview {
     height: 85vh;
     width: 100%;
     object-fit: cover;
     margin-bottom: 20px;
 }
-div.carousel-caption{
+
+div.carousel-caption {
     text-shadow: 1px 1px 2px black;
     color: white;
 }
@@ -68,8 +70,9 @@ div.carousel-caption{
     font-family: Times;
     line-height: 1;
 }
+
 .Stars::before {
-    content: '★★★★★'; 
+    content: '★★★★★';
     letter-spacing: 1px;
     background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
     background-clip: text;
