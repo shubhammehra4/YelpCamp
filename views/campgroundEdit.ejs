@@ -3,31 +3,45 @@
         <h1>Edit <%= campground.name %> </h1>
     </div>
     <div class="container">
-        <form action="/campground/<%= campground._id %>/edit?_method=PUT" method="post">
+        <form action="/campground/<%= campground._id %>/edit?_method=PUT" method="post" class="needs-validation" novalidate>
             <div class="form-group">
                 <label>Name<span class="red">*</span></label>
                 <input class="form-control" type="text" placeholder="Name" name="name" value="<%= campground.name %>" required >
+                <div class="invalid-feedback">
+                    Please provide a campground name.
+                </div>
             </div>
             <div class="form-group">
                 <label>Image url<span class="red">*</span></label>
                 <input class="form-control" type="url" placeholder="Image URL" name="image" value="<%= campground.coverImage %>" required>
+                <div class="invalid-feedback">
+                    Please provide a Image.
+                </div>
             </div>
             <div class="form-group">
                 <label>Description<span class="red">*</span></label>
-                <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="2"><%= campground.description %></textarea>
+                <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="2" required><%= campground.description %></textarea>
+                <div class="invalid-feedback">
+                    Please provide a description of your campground.
+                </div>
             </div>
             <div class="form-group">
                 <label>Pricing<span class="red">*</span></label>
                 <input class="form-control" type="number" min="0" placeholder="Price/Night" name="pricing" value="<%= campground.pricing %>" required><span class="pull-right text-muted">*$/night</span> 
+                <div class="invalid-feedback">
+                    Please provide a price.
+                </div>
             </div>
             <div class="form-group">
                 <label>Contact</label>
-                <input class="form-control" type="number" placeholder="123-456-7891" name="contact" value="<%= campground.contact %>">
+                <input class="form-control" type="text" placeholder="123-456-7891" name="contact" value="<%= campground.contact %>">
             </div>
             <div class="form-group">
                 <label>Location<span class="red">*</span></label>
                 <input class="form-control" type="text" placeholder="Yosemite National Park, CA" name="address" required value="<%= campground.address %>">
-                <small class="text-muted">(Please Enter a valid Address)</small>
+                <div class="invalid-feedback">
+                    Please enter a valid address.
+                </div>
             </div>
             <label>Best Time to Visit</label> 
             <div class="form-group"> 
