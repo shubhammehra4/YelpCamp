@@ -62,7 +62,7 @@
                 <% userCampgrounds.forEach(function(campground){ %>
                     <div class="col-md-3 col-sm-6 pad">
                         <div class="thumbnail">
-                                <img src="<%= campground.coverImage %> " style="width:100%">
+                                <img src="<%= campground.image %> " style="width:100%">
                                 <div class="caption">
                                     <p> <span class="imagename"><%= campground.name %></span></p>
                                 </div>
@@ -81,7 +81,7 @@
                 <% likedCampgrounds.forEach(function(campground){ %>
                     <div class="col-md-3 col-sm-6 pad">
                         <div class="thumbnail">
-                                <img src="<%= campground.coverImage %> " style="width:100%">
+                                <img src="<%= campground.image %> " style="width:100%">
                                 <div class="caption">
                                     <p> <span class="imagename"><%= campground.name %></span>  <i class="fa fa-heart icon-unlike" campgroundid = "<%= campground._id %>" style="color: red;" aria-hidden="true"></i></p>
                                 </div>

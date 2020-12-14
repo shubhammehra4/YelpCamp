@@ -1,54 +1,56 @@
 <%- include('partials/header') %>
-<div class="pull-left" id="popup" style="width: 50%; margin-top: 10px; margin-left: 25%; display: absolute;">
-    <% if(error && error.length > 0){ %>
-        <div class="alert alert-danger" role="alert">
-            <%= error %>
-            <a class = "close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-        </div>
-        <script>
-            $(document).ready(function() {
-                setTimeout(function() {
+    <div class="pull-left" id="popup" style="width: 50%; margin-top: 10px; margin-left: 25%; display: absolute;">
+        <% if(error && error.length> 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+                    <a class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    setTimeout(function () {
+                        $('div#popup').slideUp();
+                    }, 2500);
+                });
+                $('a.close').click(function () {
                     $('div#popup').slideUp();
-                }, 2500);
-            });
-            $('a.close').click(function () {
-                $('div#popup').slideUp();
-            })
-        </script>
-    <% } %>
-    <% if(success && success.length > 0){ %>
-        <div class="alert alert-success" role="alert">
-            <%= success %>
-            <a class = "close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-        </div>
-        <script>
-            $(document).ready(function() {
-                setTimeout(function() {
-                    $('div#popup').slideUp();
-                }, 2500);
-            });
-            $('a.close').click(function () {
-                $('div#popup').slideUp();
-            })
-        </script>
-    <% } %>
-</div>
-<link rel="stylesheet" href="/stylesheets/login.css">
+                })
+            </script>
+            <% } %>
+                <% if(success && success.length> 0){ %>
+                    <div class="alert alert-success" role="alert">
+                        <%= success %>
+                            <a class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            setTimeout(function () {
+                                $('div#popup').slideUp();
+                            }, 2500);
+                        });
+                        $('a.close').click(function () {
+                            $('div#popup').slideUp();
+                        })
+                    </script>
+                    <% } %>
+    </div>
+    <link rel="stylesheet" href="/stylesheets/login.css">
     <div class="container">
         <div class="card p-5">
             <h3 class="text-center">Login</h3>
             <form action="/login" method="post">
                 <div class="form-group">
                     <label for="username">
-                        <input class="form-control" id="username" type="text" name="username" placeholder=" " required autofocus>
+                        <input class="form-control" id="username" type="text" name="username" placeholder=" " required
+                            autofocus>
                         <span><i class="fa fa-user-circle"></i> Username</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="password">
-                        <input class="form-control" id="password" type="password" name="password" placeholder=" " required>
+                        <input class="form-control" id="password" type="password" name="password" placeholder=" "
+                            required>
                         <span><i class="fa fa-key"></i> Password </span>
-                    </label>                    
+                    </label>
                 </div>
                 <div class="form-group text-center">
                     <button class="btn btn-primary">Login</button>
@@ -59,5 +61,4 @@
             </p>
         </div>
     </div>
-    
-<%- include('partials/footer') %> 
+    <%- include('partials/footer') %>

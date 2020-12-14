@@ -47,9 +47,9 @@
                 <div class="card info">
                     <div class="card-header"><strong><i class="fa fa-smile-o" aria-hidden="true"></i> Facilities</strong></div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Info 2</li>
-                        <li class="list-group-item">Info 3</li>
-                        <li class="list-group-item">Info 4</li>
+                        <% campground.amenities.forEach(function (a) { %>
+                            <li class="list-group-item"><%= a %></li>
+                        <% }) %>
                     </ul>
                 </div>
                 <div class="card info">
@@ -58,19 +58,19 @@
                         <li class="list-group-item"> <%= campground.contact %></li>
                     </ul>
                 </div>
-                <% var add1 = campground.address.replace(" ", "%20") %> 
-                <% var address = add1.replace(",", "%2C") %> 
+                <% var add1 = campground.location.replace(" ", "%20") %> 
+                <% var location = add1.replace(",", "%2C") %> 
                 <div class="mapouter">
                     <div class="gmap_canvas">
                         <iframe width="100%" height="500px" id="gmap_canvas"
-                            src="https://maps.google.com/maps?q=<%= address %>&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                            src="https://maps.google.com/maps?q=<%= location %>&t=&z=13&ie=UTF8&iwloc=&output=embed"
                             frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"></iframe>
                     </div>
                 </div>
             </div>
             <div class="col-md-9">
                 <div class="card">
-                    <img class="img-fluid img-responsive" src="<%= campground.coverImage %>">
+                    <img class="img-fluid img-responsive" src="<%= campground.image %>">
                     <div class="caption">    
                         <h4 class="pull-right">$ <%= campground.pricing %>/night</h4>
                         

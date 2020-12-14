@@ -1,100 +1,99 @@
 <%- include('partials/header') %>
-<div class="jumbotron">
+  <div class="jumbotron">
     <h1 class="text-center">Create Campground</h1>
-</div>
-<div class="container">
+  </div>
+  <div class="container">
     <form action="/campgrounds/new" method="post" class="needs-validation" novalidate>
-        <div class="form-group">
-            <label>Name<span class="red">*</span></label>
-            <input class="form-control" type="text" placeholder="Name" name="name" required autofocus>
-            <div class="invalid-feedback">
-                Please provide a campground name.
-            </div>
+      <div class="form-group">
+        <label>Name<span class="red">*</span></label>
+        <input class="form-control" type="text" placeholder="Name" name="campground[name]" required autofocus>
+        <div class="invalid-feedback">
+          Please provide a campground name.
         </div>
-        <div class="form-group">
-            <label>Image url<span class="red">*</span></label>
-            <input class="form-control" type="url" placeholder="Image URL" name="image" required >
-            <div class="invalid-feedback">
-                Please provide a Image.
-            </div>
+      </div>
+      <div class="form-group">
+        <label>Image url<span class="red">*</span></label>
+        <input class="form-control" type="url" placeholder="Image URL" name="campground[image]" required>
+        <div class="invalid-feedback">
+          Please provide a Image.
         </div>
-        <div class="form-group">
-            <label>Description<span class="red">*</span></label>
-            <textarea class="form-control" name="description" placeholder="Description" cols="5" rows="2" required></textarea>
-            <div class="invalid-feedback">
-                Please provide a description of your campground.
-            </div>
+      </div>
+      <div class="form-group">
+        <label>Description<span class="red">*</span></label>
+        <textarea class="form-control" name="campground[description]" placeholder="Description" cols="5" rows="2"
+          required></textarea>
+        <div class="invalid-feedback">
+          Please provide a description of your campground.
         </div>
-        <div class="form-group">
-            <label>Pricing<span class="red">*</span></label>
-            <input class="form-control" type="number" min="0" placeholder="Price/Night" name="pricing" required ><span
-                class="pull-right text-muted">*$/night</span>
-            <div class="invalid-feedback">
-                Please provide a price.
-            </div>
+      </div>
+      <div class="form-group">
+        <label>Pricing<span class="red">*</span></label>
+        <input class="form-control" type="number" min="0" placeholder="Price/Night" name="campground[pricing]" required>
+        <span class="pull-right text-muted">*$/night</span>
+        <div class="invalid-feedback">
+          Please provide a price.
         </div>
-        <div class="form-group">
-            <label>Contact</label>
-            <input class="form-control" type="text" placeholder="123-456-7891" name="contact">
+      </div>
+      <div class="form-group">
+        <label>Contact</label>
+        <input class="form-control" type="text" placeholder="1234567891" name="campground[contact]">
+      </div>
+      <div class="form-group">
+        <label>Location<span class="red">*</span></label>
+        <input class="form-control" type="text" placeholder="Yosemite National Park, CA" name="campground[location]"
+          required>
+        <div class="invalid-feedback">
+          Please enter a valid address.
         </div>
-        <div class="form-group">
-            <label>Location<span class="red">*</span></label>
-            <input class="form-control" type="text" placeholder="Yosemite National Park, CA" name="address" required>
-            <!-- <small class="text-muted">(Please Enter a valid Address)</small> -->
-            <div class="invalid-feedback">
-                Please enter a valid address.
-            </div>
+      </div>
+      <label>Best Time to Visit</label>
+      <div class="form-group">
+        <div class="row">
+          <div class="col">
+            <input class="form-control" list="months" placeholder="Start" name="campground[startMonth]">
+          </div>
+          <div class="col">
+            <input class="form-control" list="months" placeholder="End" name="campground[endMonth]">
+          </div>
+          <datalist id="months">
+            <option value="January">
+            <option value="February">
+            <option value="March">
+            <option value="April">
+            <option value="May">
+            <option value="June">
+            <option value="July">
+            <option value="August">
+            <option value="September">
+            <option value="October">
+            <option value="November">
+            <option value="December">
+          </datalist>
         </div>
-        <label>Best Time to Visit</label>
-        <div class="form-group">
-            <select name="startmonth" class="form-control pull-left" style="width: 45%;">
-                <option selected>Start</option>
-                <option value="Jan">Jan</option>
-                <option value="Feb">Feb</option>
-                <option value="Mar">Mar</option>
-                <option value="Apr">Apr</option>
-                <option value="May">May</option>
-                <option value="Jun">Jun</option>
-                <option value="Jul">Jul</option>
-                <option value="Aug">Aug</option>
-                <option value="Sep">Sep</option>
-                <option value="Oct">Oct</option>
-                <option value="Nov">Nov</option>
-                <option value="Dec">Dec</option>
-            </select>
-            <select name="endmonth" class="form-control pull-right" style="width: 45%;">
-                <option selected>End</option>
-                <option value="Jan">Jan</option>
-                <option value="Feb">Feb</option>
-                <option value="Mar">Mar</option>
-                <option value="Apr">Apr</option>
-                <option value="May">May</option>
-                <option value="Jun">Jun</option>
-                <option value="Jul">Jul</option>
-                <option value="Aug">Aug</option>
-                <option value="Sep">Sep</option>
-                <option value="Oct">Oct</option>
-                <option value="Nov">Nov</option>
-                <option value="Dec">Dec</option>
-            </select>
-        </div>
-        <div class="form-group text-center" style="margin-top: 60px;">
-            <button class="btn btn-primary">Create</button>
-        </div>
+      </div>
+      <div class="form-group">
+        <label>Amenities</label>
+        <input class="form-control" type="text" placeholder="Example: boating, fishing, wifi"
+          name="campground[amenities]">
+        <small class="text-muted pull-right">separated by commas</small>
+      </div>
+      <div class="form-group text-center" style="margin-top: 60px;">
+        <button class="btn btn-primary">Create</button>
+      </div>
     </form>
-</div>
-<style>
+  </div>
+  <style>
     form {
-        width: 60%;
-        margin: auto;
+      width: 60%;
+      margin: auto;
     }
 
     input.form-control {
-        box-shadow: none !important;
+      box-shadow: none !important;
     }
 
     .red {
-        color: red;
+      color: red;
     }
-</style>
+  </style>
 <%- include('partials/footer') %>

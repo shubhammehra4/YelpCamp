@@ -31,20 +31,9 @@ router.post("/campgrounds/new", isLoggedIn, (req, res) => {
         id: req.user._id,
         username: req.user.username
     };
-    var newCampground = new Campgrounds({
-        name: req.body.name,
-        coverImage: req.body.image,
-        description: req.body.description,
-        author: cAuthor,
-        pricing: req.body.pricing,
-        address: req.body.address,
-        startMonth: req.body.startmonth,
-        endMonth: req.body.endmonth
-    });
-    if (req.body.contact) {
-        newCampground.contact = req.body.contact;
-    }
-    Campgrounds.create(newCampground, (err, _campground) => {
+    req.body.campground.author = cAuthor;
+    req.body.campground.amenities = req.body.campground.amenities.split(',');
+    Campgrounds.create(req.body.campground, (err, _campground) => {
         if (err) {
             if (err.code == 11000) {
                 req.flash("error", "Campground with this name already exists!");
@@ -54,7 +43,6 @@ router.post("/campgrounds/new", isLoggedIn, (req, res) => {
                 req.flash("error", "Error! Please Try Again");
                 res.redirect("/campgrounds");
             }
-
         } else {
             req.flash("success", "Created Campground!");
             res.redirect("/campgrounds");
@@ -94,20 +82,17 @@ router.get("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
 });
 
 router.put("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
-    var updatedCampground = {
-        name: req.body.name,
-        coverImage: req.body.image,
-        description: req.body.description,
-        pricing: req.body.pricing,
-        address: req.body.address,
-        startMonth: req.body.startmonth,
-        endMonth: req.body.endmonth,
-        contact: req.body.contact
-    };
-    Campgrounds.findByIdAndUpdate(req.params.id, updatedCampground, (err, campground) => {
+    req.body.campground.amenities = req.body.campground.amenities.split(',');
+    Campgrounds.findByIdAndUpdate(req.params.id, req.body.campground, (err, campground) => {
         if (err) {
-            req.flash("error", "Error! Please Try Again");
-            res.redirect("/campgrounds");
+            if (err.code == 11000) {
+                req.flash("error", "Campground with this name already exists!");
+                res.redirect("/campgrounds");
+            } else {
+                console.log(err);
+                req.flash("error", "Error! Please Try Again");
+                res.redirect("/campgrounds");
+            }
         } else {
             req.flash("success", "Edited " + campground.name);
             res.redirect("/campground/" + req.params.id);

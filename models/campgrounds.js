@@ -5,9 +5,12 @@ var CampgroundSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    coverImage: String,
+    image: String,
     description: String,
     pricing: Number,
+    contact: Number,
+    location: String,
+    amenities:[],
     ratingNumber: {
         type: Number,
         default: 0
@@ -16,14 +19,8 @@ var CampgroundSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    address: String,
-    contact: Number,
     startMonth: String,
     endMonth: String,
-    loaction: {
-        lat: Number,
-        lon: Number
-    },
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
