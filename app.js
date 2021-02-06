@@ -1,12 +1,11 @@
-const express = require('express'),
+require("dotenv").config();
+const express = require("express"),
     bodyParser = require("body-parser"),
-    dotenv = require('dotenv'),
     mongoose = require("mongoose"),
     flash = require("connect-flash"),
     passport = require("passport"),
     LocalStrategy = require("passport-local").Strategy,
-    // GoogleStrategy        = require("passport-google-oauth20"),
-    methodOverride = require('method-override'),
+    methodOverride = require("method-override"),
     User = require("./models/user"),
     indexRoutes = require("./routes/index"),
     campgroundsRoutes = require("./routes/campground"),
@@ -14,27 +13,28 @@ const express = require('express'),
     // seedDB = require('./Seed/seeds'),
     app = express();
 
-
-
-dotenv.config();
 mongoose.connect(process.env.DATABASEURL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
 });
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(methodOverride('_method'));
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(methodOverride("_method"));
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+);
 app.use(flash());
-app.use(require("express-session")({
-    secret: "web dev",
-    resave: false,
-    saveUninitialized: false
-}));
+app.use(
+    require("express-session")({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -53,12 +53,11 @@ app.use(campgroundsRoutes);
 //!                 DEBUG DB
 // seedDB();
 
-/** 
+/**
  * TODO: Campgrounds Categories && sortby
  * TODO: Mailing System
  * TODO: Stats
  */
-
 
 //**                    Port
 

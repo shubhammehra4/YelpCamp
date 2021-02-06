@@ -36,21 +36,20 @@ span {
     left: 5px;
     top: 0;
     transition: 0.2s;
-    transition-timing-function: ease;
     transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
     color: black;
     opacity: 0.5;
 }
 
-input#username:focus+input#password:focus+span,
-input:not(:placeholder-shown)+span {
+input#username:focus + input#password:focus + span,
+input:not(:placeholder-shown) + span {
     opacity: 1;
     color: white;
     transform: scale(1) translateY(-100%) translateX(-10px);
 }
 
-input:focus+span,
-input:not(:-ms-input-placeholder)+span {
+input:focus + span,
+input:not(:-ms-input-placeholder) + span {
     opacity: 1;
     transform: scale(0.75) translateY(-100%) translateX(-30px);
 }
@@ -59,6 +58,6 @@ label#remlab {
     opacity: 0.5;
 }
 
-input[type=checkbox]:checked+label#remlab {
+input[type="checkbox"]:checked + label#remlab {
     opacity: 1;
 }
