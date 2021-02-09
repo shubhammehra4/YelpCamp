@@ -1,0 +1,32 @@
+<% layout('layouts/boilerplate') %>
+
+    <%- include('../partials/flash') %>
+        <link rel="stylesheet" href="/stylesheets/login.css">
+        <div class="container container d-flex justify-content-center align-items-center">
+            <div class="card py-3 px-2 rounded">
+                <h2 class="text-center">Login</h2>
+                <form action="/login" method="POST" class="needs-validation px-5" novalidate>
+                    <div class="form-group">
+                        <label for="username">
+                            <input class="form-control" id="username" type="text" name="username" placeholder=" "
+                                required required autofocus>
+                            <span><i class="fa fa-user"></i> Username</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">
+                            <input class="form-control" id="password" type="password" name="password" placeholder=" "
+                                required required>
+                            <span><i class="fa fa-key"></i> Password</span>
+                        </label>
+                    </div>
+                    <div class="form-group text-center mt-4">
+                        <button class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+                <p class="text-center">
+                    New User? <a href="/register">Register Now!</a>
+                </p>
+            </div>
+        </div>
+        <script src="/scripts/formValidation.js"></script>

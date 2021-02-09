@@ -1,0 +1,68 @@
+<% layout('layouts/boilerplate') %>
+
+    <%- include('../partials/flash') %>
+        <link rel="stylesheet" href="/stylesheets/register.css">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="card py-3 px-2 rounded">
+                <h2 class="text-center my-4">Register</h2>
+                <div class="d-flex justify-content-evenly fs-2 px-5">
+                    <i class="fa fa-google"></i>
+                    <i class="fa fa-twitter"></i>
+                    <i class="fa fa-facebook"></i>
+                </div>
+                <div class="cont">
+                    <hr class="separator">
+                </div>
+                <form action="/register" method="POST" novalidate class="needs-validation w-75 mx-auto">
+                    <div class="row">
+                        <div class="col col-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Name" minlength="3"
+                                    required autofocus>
+                                <div class="invalid-feedback">
+                                    Provide a Name
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-6">
+                            <div class="form-group">
+                                <label>Username </label>
+                                <input class="form-control" type="text" name="username" placeholder="Username"
+                                    minlength="3" required />
+                                <div class="invalid-feedback">
+                                    Provide a Username
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email </label>
+                        <input class="form-control" type="email" name="email" placeholder="Email" required />
+                        <div class="invalid-feedback">
+                            Provide an Email
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password </label>
+                        <input class="form-control" type="password" name="password" placeholder="Password" minlength="3"
+                            required>
+                        <div class="invalid-feedback">
+                            Provide a Password
+                        </div>
+                    </div>
+                    <div class="form-group text-center mt-4">
+                        <button class="btn btn-primary">Sign Up</button>
+                    </div>
+                </form>
+                <p class="text-center">
+                    Already Registered? <a href="/login">Login</a>
+                </p>
+            </div>
+        </div>
+        <script src="/scripts/formValidation.js"></script>
+        <script>
+            $(".sign-up-icons").click(function () {
+                alert("Sorry! This Feature Under-Construction");
+            })
+        </script>
