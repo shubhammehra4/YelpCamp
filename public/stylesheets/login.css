@@ -6,9 +6,7 @@ body {
 }
 
 div.card {
-    border-radius: 10px;
     width: 40%;
-    padding: auto;
     margin: 15rem auto;
     background-color: rgba(0, 0, 0, 0.4);
     color: white;
@@ -28,17 +26,34 @@ label {
     position: relative;
     display: inline-block;
 }
+div.form-group {
+    margin: 0.75rem 0;
+}
 
+input.form-control {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent;
+    color: white;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid white !important;
+    border-radius: 0;
+}
+input.form-control:focus {
+    background-color: transparent;
+    color: white;
+    border-bottom: 2px solid aqua !important;
+}
 span {
-    padding: 10px;
+    padding: 10px 0;
     pointer-events: none;
     position: absolute;
     left: 5px;
     top: 0;
     transition: 0.2s;
     transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-    color: black;
-    opacity: 0.5;
+    color: white;
+    opacity: 0.8;
 }
 
 input#username:focus + input#password:focus + span,
@@ -52,12 +67,4 @@ input:focus + span,
 input:not(:-ms-input-placeholder) + span {
     opacity: 1;
     transform: scale(0.75) translateY(-100%) translateX(-30px);
-}
-
-label#remlab {
-    opacity: 0.5;
-}
-
-input[type="checkbox"]:checked + label#remlab {
-    opacity: 1;
 }

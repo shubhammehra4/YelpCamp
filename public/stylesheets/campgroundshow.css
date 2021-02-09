@@ -1,27 +1,3 @@
-div.info {
-    margin-bottom: 25px;
-}
-
-div.cont {
-    margin-top: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1600px;
-    width: 100%;
-}
-
-div.caption {
-    padding: 20px;
-}
-
-div.commentbox {
-    background-color: rgba(212, 207, 207, 0.795);
-    padding: 10px;
-    margin: 40px 0;
-}
-
 .hide {
     display: none;
 }
@@ -34,39 +10,36 @@ div.commentbox {
 /* Comments */
 
 .rating {
-    width: 90px;
     unicode-bidi: bidi-override;
     direction: rtl;
-    text-align: center;
     position: relative;
+    cursor: pointer;
 }
 
-.rating>label {
-    float: right;
+.rating > label {
     display: inline;
     padding: 0;
     margin: 0;
     position: relative;
-    font-size: large;
-    width: 1em;
+    font-size: x-large;
     cursor: pointer;
     color: #000;
 }
 
-.rating>label:hover,
-.rating>label:hover~label,
-.rating>input.radio-btn:checked~label {
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
     color: transparent;
 }
 
-.rating>label:hover:before,
-.rating>label:hover~label:before,
-.rating>input.radio-btn:checked~label:before,
-.rating>input.radio-btn:checked~label:before {
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
     content: "\2605";
     position: absolute;
     left: 0;
-    color: #FFD700;
+    color: #ffd700;
 }
 
 /* Review */
@@ -85,9 +58,13 @@ div.commentbox {
 }
 
 .Stars::before {
-    content: '★★★★★';
+    content: "★★★★★";
     letter-spacing: 3px;
-    background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+    background: linear-gradient(
+        90deg,
+        var(--star-background) var(--percent),
+        var(--star-color) var(--percent)
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

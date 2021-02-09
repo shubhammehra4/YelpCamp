@@ -16,3 +16,15 @@ a.navbar-brand {
     padding-left: 100px;
     font-size: x-large;
 }
+
+a {
+    text-decoration: none;
+}
+
+.form-control {
+    box-shadow: none !important;
+}
+
+.red {
+    color: red;
+}
