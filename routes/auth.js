@@ -2,40 +2,42 @@ const express = require("express"),
     router = express.Router(),
     passport = require("passport"),
     Campgrounds = require("../models/campgrounds"),
-    User = require("../models/user");
+    User = require("../models/user"),
+    catchAsync = require("../utils/catchAsync");
 
-router.get("/signup", isLoggedOut, (_req, res) => {
-    res.render("signup");
+const { isLoggedIn, isLoggedOut } = require("../middlewares/authorization");
+
+router.get("/register", isLoggedOut, (_req, res) => {
+    res.render("users/register");
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
-    var newUser = new User({
-        firstName:
-            req.body.firstName.charAt(0).toUpperCase() +
-            req.body.firstName.slice(1),
-        lastName:
-            req.body.lastName.charAt(0).toUpperCase() +
-            req.body.lastName.slice(1),
-        username: req.body.username,
-        email: req.body.email,
-    });
-    User.register(newUser, req.body.password, (err, _user) => {
-        if (err) {
+router.post(
+    "/register",
+    isLoggedOut,
+    catchAsync(async (req, res, next) => {
+        try {
+            const { name, email, username, password } = req.body;
+            const user = new User({ email, username, name });
+            const newUser = await User.register(user, password);
+            req.login(newUser, (err) => {
+                if (err) return next(err);
+                req.flash("success", "Welcome to Yelp Camp!");
+                res.redirect("/campgrounds");
+            });
+        } catch (err) {
             if (err.code == 11000) {
-                req.flash("error", "Email already in use!");
-                return res.redirect("/signup");
+                req.flash("error", "Email is already registered!");
+                res.redirect("/register");
             } else {
                 req.flash("error", err.message);
-                return res.redirect("/signup");
+                res.redirect("/register");
             }
         }
-
-        res.redirect("/login");
-    });
-});
+    })
+);
 
 router.get("/login", isLoggedOut, (_req, res) => {
-    res.render("login");
+    res.render("users/login");
 });
 
 router.post(
@@ -44,11 +46,13 @@ router.post(
     passport.authenticate("local", {
         failureRedirect: "/login",
         failureFlash: true,
-        successRedirect: "/campgrounds",
-        successFlash: true,
-        successFlash: "Welcome!",
     }),
-    (req, res) => {}
+    (req, res) => {
+        req.flash("success", "Welcome Back!");
+        const redirectUrl = req.session.returnTo || "/campgrounds";
+        delete req.session.returnTo;
+        res.redirect(redirectUrl);
+    }
 );
 
 router.get("/logout", isLoggedIn, (req, res) => {
@@ -114,21 +118,5 @@ router.put("/pedit/:id", isLoggedIn, (req, res) => {
         res.redirect("back");
     }
 });
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.flash("error", "Please Login First!");
-    res.redirect("/login");
-}
-
-function isLoggedOut(req, res, next) {
-    if (!req.isAuthenticated()) {
-        return next();
-    }
-    req.flash("error", "Please Logout First!");
-    res.redirect("/campgrounds");
-}
 
 module.exports = router;
