@@ -7,12 +7,12 @@ exports.validateCampground = (req, res, next) => {
             name: Joi.string().required().min(3),
             price: Joi.number().required().min(1),
             location: Joi.string().required().min(3),
-            image: Joi.string(),
             description: Joi.string().required().min(3),
             startMonth: Joi.any(),
             endMonth: Joi.any(),
             facilities: Joi.any(),
         }).required(),
+        deleteImages: Joi.array(),
     });
     const { error } = campgroundSchema.validate(req.body);
     if (error) {

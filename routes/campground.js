@@ -4,6 +4,10 @@ const express = require("express"),
     Review = require("../models/review"),
     catchAsync = require("../utils/catchAsync");
 
+const multer = require("multer"),
+    { storage, cloudinary } = require("../middlewares/cloudinary"),
+    upload = multer({ storage });
+
 const {
     validateCampground,
     validateReview,
@@ -34,9 +38,14 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.post(
     "/new",
     isLoggedIn,
+    upload.array("images"),
     validateCampground,
     catchAsync(async (req, res) => {
         const campground = new Campgrounds(req.body.campground);
+        campground.images = req.files.map((f) => ({
+            url: f.path,
+            filename: f.filename,
+        }));
         campground.author = req.user._id;
         await campground.save();
         req.flash("success", "New Campground Created!");
@@ -82,17 +91,35 @@ router.get(
 router.put(
     "/:id/edit",
     checkCampgroundOwnership,
+    upload.array("images"),
     validateCampground,
     catchAsync(async (req, res) => {
-        console.log("Error");
         const { id } = req.params;
         const campground = await Campgrounds.findByIdAndUpdate(id, {
             ...req.body.campground,
         });
+
         if (!campground) {
             req.flash("error", "Cannot find that Campground");
             return res.redirect("/campgrounds");
         }
+
+        const images = req.files.map((f) => ({
+            url: f.path,
+            filename: f.filename,
+        }));
+        campground.images.push(...images);
+        await campground.save();
+
+        if (req.body.deleteImages) {
+            for (let filename of req.body.deleteImages) {
+                await cloudinary.uploader.destroy(filename);
+            }
+            await campground.updateOne({
+                $pull: { images: { filename: { $in: req.body.deleteImages } } },
+            });
+        }
+
         req.flash("success", "Updated " + campground.name);
         res.redirect(`/campgrounds/${campground._id}`);
     })

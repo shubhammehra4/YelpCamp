@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-center align-items-center">
                 <div class="Stars" style="--rating: <%= campground.rating/campground.reviews.length || 0 %> ;"
                     aria-label="Rating of the Campground"></div>
-                <b><%= (campground.rating/campground.reviews.length).toFixed(1) || 0 %></b>
+                <b><%= campground.rating ? (campground.rating/campground.reviews.length).toFixed(1) : 0 %></b>
             </div>
             <div class="text-center mb-3">
                 <% if(campground.reviews.length){ %>
@@ -26,6 +26,10 @@
                 </span>
                 <% } %>
 
+                <% } else { %>
+                <span class="text-muted fs-6">
+                    0 reviews
+                </span>
                 <% } %>
             </div>
             <div class="card mb-4">
@@ -66,7 +70,30 @@
 
         <div class="col-md-9">
             <div class="card rounded">
-                <img class="card-img-top img-fluid img-responsive rounded" src="<%= campground.image %>">
+                <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <% campground.images.forEach((image, index) => { %>
+                        <div class="carousel-item <%= index===0? 'active' : '' %>">
+                            <img src="<%= image.url %>" class="d-block w-100 img-fluid img-responsive rounded"
+                                style="max-height: 80vh;" alt="CampgroundCarousel">
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% if(campground.images.length>1){ %>
+                    <a class="carousel-control-prev" href="#imageCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#imageCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                    <% } %>
+
+                </div>
+                <!-- <%# campground.images.forEach(image => { %>
+                <img class="card-img-top img-fluid img-responsive rounded" src="<%# image.url %>">
+                <%# }) %> -->
                 <div class="card-body py-2 px-3">
                     <h4 class="float-end">
                         $<%= campground.price %>

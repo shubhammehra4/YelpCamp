@@ -65,12 +65,12 @@
     <div class="col-sm-12 col-md-6 col-lg-4 pb-5 indexCards">
       <div class="card thumbnail shadow border-0 mt-4">
         <a href="/campgrounds/<%= campground._id %>">
-          <img src="<%= campground.image %>" class="img-fluid rounded" />
+          <img src="<%= campground.images[0].url %>" class="img-fluid rounded" />
         </a>
 
-        <% if(campground.pricing>= 40){ %>
+        <% if(campground.price>= 40){ %>
         <% var rate="$$$" %>
-        <% } else if (campground.pricing>= 20){ %>
+        <% } else if (campground.price>= 20){ %>
         <% var rate="$$" %>
         <% } else { %>
         <% var rate="$" %>

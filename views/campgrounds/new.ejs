@@ -3,7 +3,7 @@
   <h1 class="text-center">New Campground</h1>
 </div>
 <div class="container">
-  <form action="/campgrounds/new" method="post" class="needs-validation" novalidate>
+  <form action="/campgrounds/new" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
     <div class="form-group">
       <label>Name<span class="red">*</span></label>
       <input class="form-control" type="text" placeholder="Name" name="campground[name]" required minlength="3"
@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label>Image url<span class="red">*</span></label>
-      <input class="form-control" type="url" placeholder="Image URL" name="campground[image]" required>
+      <label>Image<span class="red">*</span></label>
+      <input class="form-control" type="file" placeholder="Image" name="images" multiple required>
       <div class="invalid-feedback">
         Please provide an Image.
       </div>
