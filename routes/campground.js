@@ -8,6 +8,10 @@ const multer = require("multer"),
     { storage, cloudinary } = require("../middlewares/cloudinary"),
     upload = multer({ storage });
 
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding"),
+    mapBoxToken = process.env.MAPBOX_TOKEN,
+    geoCoder = mbxGeocoding({ accessToken: mapBoxToken });
+
 const {
     validateCampground,
     validateReview,
@@ -41,7 +45,14 @@ router.post(
     upload.array("images"),
     validateCampground,
     catchAsync(async (req, res) => {
+        const geoData = await geoCoder
+            .forwardGeocode({
+                query: req.body.campground.location,
+                limit: 1,
+            })
+            .send();
         const campground = new Campgrounds(req.body.campground);
+        campground.geometry = geoData.body.features[0].geometry;
         campground.images = req.files.map((f) => ({
             url: f.path,
             filename: f.filename,

@@ -1,7 +1,8 @@
 <% layout('layouts/boilerplate') %>
-
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 <link rel="stylesheet" href="/stylesheets/campgrounds.css" />
-<div id="carouselPreview" class="carousel slide" data-bs-ride="carousel">
+<!-- <div id="carouselPreview" class="carousel slide" data-bs-ride="carousel">
   <ol class="carousel-indicators">
     <li data-bs-target="#carouselPreview" data-bs-slide-to="0" class="active"></li>
     <li data-bs-target="#carouselPreview" data-bs-slide-to="1"></li>
@@ -57,7 +58,8 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
-</div>
+</div> -->
+<div id="map" style="width: 100%; height: 500px;"></div>
 <%- include('../partials/flash') %>
 <div class="container">
   <div class="row d-flex flex-wrap">
@@ -140,6 +142,14 @@
     viewFactor: 0.5,
   });
 </script>
+<script>
+  const mapToken = "<%- process.env.MAPBOX_TOKEN%>";
+  const campgrounds = {
+    features: <%- JSON.stringify(campgrounds) %>
+  };
+</script>
+<script src="/scripts/clusterMap.js"></script>
+
 <script>
   $("i.icon-o").click(function () {
     var campgroundId = $(this).attr("campgroundId");
