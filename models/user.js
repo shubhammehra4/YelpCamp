@@ -11,6 +11,12 @@ var UserSchema = new Schema(
             required: true,
         },
         bio: String,
+        likes: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Campgrounds",
+            },
+        ],
     },
     {
         timestamps: true,
