@@ -6,6 +6,8 @@ const map = new mapboxgl.Map({
     zoom: 3,
 });
 
+map.addControl(new mapboxgl.NavigationControl());
+
 map.on("load", function () {
     map.addSource("campgrounds", {
         type: "geojson",

@@ -2,6 +2,7 @@ const express = require("express"),
     router = express.Router(),
     Campgrounds = require("../models/campgrounds"),
     Review = require("../models/review"),
+    User = require("../models/user"),
     catchAsync = require("../utils/catchAsync");
 
 const multer = require("multer"),
@@ -38,13 +39,16 @@ router.get("/new", isLoggedIn, (req, res) => {
 });
 
 //**                CREATE POST
-//! EDIT
+
 router.post(
     "/new",
     isLoggedIn,
     upload.array("images"),
     validateCampground,
     catchAsync(async (req, res) => {
+        req.body.campground.facilities = req.body.campground.facilities.split(
+            ","
+        );
         const geoData = await geoCoder
             .forwardGeocode({
                 query: req.body.campground.location,
@@ -106,6 +110,9 @@ router.put(
     validateCampground,
     catchAsync(async (req, res) => {
         const { id } = req.params;
+        req.body.campground.facilities = req.body.campground.facilities.split(
+            ","
+        );
         const campground = await Campgrounds.findByIdAndUpdate(id, {
             ...req.body.campground,
         });
@@ -187,40 +194,34 @@ router.delete(
     })
 );
 
-// router.post("/save", isLoggedIn, (req, res) => {
-//     Campgrounds.findByIdAndUpdate(
-//         req.body.campgroundId,
-//         {
-//             $addToSet: {
-//                 likes: req.user._id,
-//             },
-//         },
-//         (err, _campground) => {
-//             if (err) {
-//                 res.send(err);
-//             } else {
-//                 res.send("Successful");
-//             }
-//         }
-//     );
-// });
+//**                Like Campground
 
-// router.delete("/unsave", isLoggedIn, (req, res) => {
-//     Campgrounds.findByIdAndUpdate(
-//         req.body.campgroundId,
-//         {
-//             $pull: {
-//                 likes: req.user._id,
-//             },
-//         },
-//         (err) => {
-//             if (err) {
-//                 res.send(err);
-//             } else {
-//                 res.send("Successful");
-//             }
-//         }
-//     );
-// });
+router.post(
+    "/:id/like/:uId",
+    isLoggedIn,
+    catchAsync(async (req, res) => {
+        const { uId, id } = req.params;
+        const user = await User.findById(uId);
+        const campground = await Campgrounds.findById(id);
+        user.likes.addToSet(campground._id);
+        await user.save();
+        res.send("L");
+    })
+);
+
+//**                Unlike Campground
+
+router.post(
+    "/:id/unlike/:uId",
+    isLoggedIn,
+    catchAsync(async (req, res) => {
+        const { uId, id } = req.params;
+        const user = await User.findById(uId);
+        const campground = await Campgrounds.findById(id);
+        user.likes.pull(campground._id);
+        await user.save();
+        res.send("U");
+    })
+);
 
 module.exports = router;
