@@ -23,10 +23,16 @@ body {
 }
 
 .slide h1 {
-    font-size: 3rem;
+    font-size: 4rem;
     text-shadow: 1px 1px 2px black;
     font-family: "Quicksand", sans-serif;
     font-weight: 800;
+}
+
+@media only screen and (max-width: 750px) {
+    .slide h1 {
+        font-size: 3rem;
+    }
 }
 
 .btn {
