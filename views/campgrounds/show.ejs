@@ -2,9 +2,6 @@
 
 <%- include('../partials/flash') %>
 
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
-
 <link rel="stylesheet" href="/stylesheets/min/campgroundshow.css">
 <div class="mt-3 mx-auto p-3 w-100" style="max-width: 1600px;">
     <div class="row">
@@ -244,5 +241,7 @@
     const title = "<%- campground.name %>";
     const mapLocation = "<%- campground.location %>";
 </script>
-<script src="/scripts/mapbox.js"></script>
-<script src="/scripts/formValidation.js"></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js' defer></script>
+<script src="/scripts/mapbox.js" defer></script>
+<script src="/scripts/formValidation.js" defer></script>
