@@ -2,10 +2,12 @@
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 <link rel="stylesheet" href="/stylesheets/campgrounds.css" />
-<div id="map" class="mb-3" style="width: 100%; height: 50vh;"></div>
+<div id="map" class="mb-3" style="width: 100%; height: 70vh;"></div>
 <%- include('../partials/flash') %>
 <div class="container">
   <div class="row d-flex flex-wrap">
+<div class="scrollDown"></div>
+
     <% campgrounds.forEach(function(campground){ %>
     <div class="col-sm-12 col-md-6 col-lg-4 pb-5 indexCards">
       <div class="card thumbnail shadow border-0 mt-4">
@@ -25,7 +27,7 @@
           <h6 class="card-title text-capitalize fw-normal">
             <% if(currentUser){ %>
               <% if(currentUser.likes.includes(campground._id.toString())){ %>
-              <a class="fs-2" href="/campgrounds/<% campground._id %>">
+              <a class="fs-2" href="/campgrounds/<%= campground._id %>">
                 <%= campground.name %>
               </a>
               <i class="fa fa-heart icon" id="icons" campgroundId="<%= campground._id %>" aria-hidden="true"></i>
@@ -92,6 +94,14 @@
   };
 </script>
 <script src="/scripts/clusterMap.js"></script>
+<script>
+  $(document).ready(function () {
+        setTimeout(function () {
+            $('div.scrollDown').hide();
+            console.log("done");
+        }, 2500);
+    });
+</script>
 <% if(currentUser){ %> 
 <script>
   $("i.icon-o").click(function () {

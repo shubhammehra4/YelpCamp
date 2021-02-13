@@ -1,11 +1,11 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/profile.css">
-<div class="container" id="user">
+<div class="container mt-5 mb-3 " id="user">
     <div class="d-flex flex-wrap">
-        <div class="col col-sm-3 text-center">
-            <div class="userlogo"><%= currentUser.name[0] %> </div>
+        <div class="ms-auto text-center">
+            <div class="userLogo"><%= currentUser.name[0].toUpperCase() %> </div>
         </div>
-        <div class="col col-sm-9 d-flex flex-column justify-content-center px-3"
+        <div class="me-auto d-flex flex-column justify-content-center px-3"
             style="font-family: Arial, Helvetica, sans-serif;">
             <h1><%= currentUser.name %></h1>
             <p class="lead"><%= currentUser.email %></p>
@@ -22,7 +22,7 @@
 <div id="campgroundsShow">
     <div class="container">
         <div class="row text-center">
-            <% userCampgrounds.forEach(function(campground){ %>
+            <% userCampgrounds && userCampgrounds.forEach(function(campground){ %>
             <div class="col-md-3 col-sm-6 pad">
                 <div class="thumbnail">
                     <img src="<%= campground.images[0].preview %>" class="img-fluid rounded">
@@ -41,8 +41,8 @@
 <div id="likedShow" style="display: none;">
     <div class="container">
         <div class="row text-center">
-            <% likedCampgrounds.likes.forEach(function(campground){ %>
-            <div class="col-md-3 col-sm-6 pad">
+            <% likedCampgrounds && likedCampgrounds.likes.forEach(function(campground){ %>
+            <div class="col-md-3 col-sm-6 pb-3">
                 <div class="thumbnail">
                     <img src="<%= campground.images[0].preview %> " class="img-fluid rounded">
                     <div class="caption">
@@ -50,7 +50,7 @@
                     </div>
                     <p>
                         <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">Visit</a>
-                        <i class="fa fa-heart btn btn-success icon-unlike" campgroundId="<%= campground._id %>"
+                        <i class="fa fa-heart btn btn-danger icon-unlike" campgroundId="<%= campground._id %>"
                             aria-hidden="true">&nbsp; Unlike</i>
                     </p>
                 </div>
