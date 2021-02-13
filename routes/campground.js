@@ -1,237 +1,227 @@
-const express = require('express'),
+const express = require("express"),
     router = express.Router(),
-    Campgrounds = require('../models/campgrounds'),
-    User = require('../models/user'),
-    Comment = require('../models/comment');
+    Campgrounds = require("../models/campgrounds"),
+    Review = require("../models/review"),
+    User = require("../models/user"),
+    catchAsync = require("../utils/catchAsync");
+
+const multer = require("multer"),
+    { storage, cloudinary } = require("../middlewares/cloudinary"),
+    upload = multer({ storage });
+
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding"),
+    mapBoxToken = process.env.MAPBOX_TOKEN,
+    geoCoder = mbxGeocoding({ accessToken: mapBoxToken });
+
+const {
+    validateCampground,
+    validateReview,
+} = require("../middlewares/validations");
+const {
+    isLoggedIn,
+    checkCampgroundOwnership,
+} = require("../middlewares/authorization");
 
 //**                MAIN
 
-router.get("/campgrounds", (_req, res) => {
-    Campgrounds.find({}, (err, allcampgrounds) => {
-        if (err) {
-            console.log(err);
-            //! flash error : Please try again
-            res.redirect("/");
-        } else {
-            res.render('campgrounds', {
-                campgrounds: allcampgrounds
-            });
-        }
-    });
+router.get(
+    "/",
+    catchAsync(async (_req, res) => {
+        const campgrounds = await Campgrounds.find({});
+        res.render("campgrounds/index", { campgrounds });
+    })
+);
+
+//**                CREATE FORM
+
+router.get("/new", isLoggedIn, (req, res) => {
+    res.render("campgrounds/new");
 });
 
-//**                CREATE
+//**                CREATE POST
 
-router.get("/campgrounds/new", isLoggedIn, (_req, res) => {
-    res.render('campgroundNew');
-});
-
-router.post("/campgrounds/new", isLoggedIn, (req, res) => {
-    var cAuthor = {
-        id: req.user._id,
-        username: req.user.username
-    };
-    req.body.campground.author = cAuthor;
-    req.body.campground.amenities = req.body.campground.amenities.split(',');
-    Campgrounds.create(req.body.campground, (err, _campground) => {
-        if (err) {
-            if (err.code == 11000) {
-                req.flash("error", "Campground with this name already exists!");
-                res.redirect("/campgrounds");
-            } else {
-                console.log(err);
-                req.flash("error", "Error! Please Try Again");
-                res.redirect("/campgrounds");
-            }
-        } else {
-            req.flash("success", "Created Campground!");
-            res.redirect("/campgrounds");
-        }
-    });
-});
+router.post(
+    "/new",
+    isLoggedIn,
+    upload.array("images"),
+    validateCampground,
+    catchAsync(async (req, res) => {
+        req.body.campground.facilities = req.body.campground.facilities.split(
+            ","
+        );
+        const geoData = await geoCoder
+            .forwardGeocode({
+                query: req.body.campground.location,
+                limit: 1,
+            })
+            .send();
+        const campground = new Campgrounds(req.body.campground);
+        campground.geometry = geoData.body.features[0].geometry;
+        campground.images = req.files.map((f) => ({
+            url: f.path,
+            filename: f.filename,
+        }));
+        campground.author = req.user._id;
+        await campground.save();
+        req.flash("success", "New Campground Created!");
+        res.redirect(`/campgrounds/${campground._id}`);
+    })
+);
 
 //**                SHOW
 
-router.get("/campground/:id", (req, res) => {
-    Campgrounds.findById(req.params.id).populate("comments").exec((err, foundCampground) => {
-        if (err) {
-            console.log(err);
-            req.flash("error", "Error! Please try again");
-            res.redirect("/campgrounds");
-        } else {
-            res.render("campgroundShow", {
-                campground: foundCampground
-            });
+router.get(
+    "/:id",
+    catchAsync(async (req, res) => {
+        const campground = await Campgrounds.findById(req.params.id)
+            .populate({
+                path: "reviews",
+                populate: {
+                    path: "author",
+                    select: "username",
+                },
+            })
+            .populate({ path: "author", select: "username" });
+        if (!campground) {
+            req.flash("error", "Cannot find that Campground");
+            return res.redirect("/campgrounds");
         }
-    });
-});
+        res.render("campgrounds/show", { campground });
+    })
+);
 
-//**                UPDATE
+//**                UPDATE FORM
 
-router.get("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
-    Campgrounds.findById(req.params.id, (err, foundCampground) => {
-        if (err) {
-            req.flash("error", "Error! Please Try Again");
-            res.redirect('back');
-        } else {
-            res.render('campgroundEdit', {
-                campground: foundCampground
-            });
+router.get(
+    "/:id/edit",
+    checkCampgroundOwnership,
+    catchAsync(async (req, res) => {
+        const campground = await Campgrounds.findById(req.params.id);
+        res.render("campgrounds/edit", { campground });
+    })
+);
+
+//**                UPDATE POST
+
+router.put(
+    "/:id/edit",
+    checkCampgroundOwnership,
+    upload.array("images"),
+    validateCampground,
+    catchAsync(async (req, res) => {
+        const { id } = req.params;
+        req.body.campground.facilities = req.body.campground.facilities.split(
+            ","
+        );
+        const campground = await Campgrounds.findByIdAndUpdate(id, {
+            ...req.body.campground,
+        });
+
+        if (!campground) {
+            req.flash("error", "Cannot find that Campground");
+            return res.redirect("/campgrounds");
         }
-    });
-});
 
-router.put("/campground/:id/edit", checkCampgroundOwnership, (req, res) => {
-    req.body.campground.amenities = req.body.campground.amenities.split(',');
-    Campgrounds.findByIdAndUpdate(req.params.id, req.body.campground, (err, campground) => {
-        if (err) {
-            if (err.code == 11000) {
-                req.flash("error", "Campground with this name already exists!");
-                res.redirect("/campgrounds");
-            } else {
-                console.log(err);
-                req.flash("error", "Error! Please Try Again");
-                res.redirect("/campgrounds");
+        const images = req.files.map((f) => ({
+            url: f.path,
+            filename: f.filename,
+        }));
+        campground.images.push(...images);
+        await campground.save();
+
+        if (req.body.deleteImages) {
+            for (let filename of req.body.deleteImages) {
+                await cloudinary.uploader.destroy(filename);
             }
-        } else {
-            req.flash("success", "Edited " + campground.name);
-            res.redirect("/campground/" + req.params.id);
+            await campground.updateOne({
+                $pull: { images: { filename: { $in: req.body.deleteImages } } },
+            });
         }
-    });
-});
 
-router.post("/save", isLoggedIn, (req, res) => {
-    Campgrounds.findByIdAndUpdate(req.body.campgroundId, {
-        $addToSet: {
-            likes: req.user._id
-        }
-    }, (err, _campground) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('Successsful');
-        }
-    });
-});
+        req.flash("success", "Updated " + campground.name);
+        res.redirect(`/campgrounds/${campground._id}`);
+    })
+);
 
-router.delete("/unsave", isLoggedIn, (req, res) => {
-    Campgrounds.findByIdAndUpdate(req.body.campgroundId, {
-        $pull: {
-            likes: req.user._id
-        }
-    }, (err) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('Successsful');
-        }
-    });
-});
+//**                DELETE
 
-//**                DESTROY
-
-router.delete("/campground/:id/delete", checkCampgroundOwnership, (req, res) => {
-    Campgrounds.findByIdAndDelete(req.params.id, (err, _campground) => {
-        if (err) {
-            req.flash("error", "Error! Please Try Again");
-            res.redirect("/campgrounds");
-        }
-        //TODO: campground.comments.forEach();
-        req.flash("success", "Deleted Campground");
+router.delete(
+    "/:id/delete",
+    checkCampgroundOwnership,
+    catchAsync(async (req, res) => {
+        const { id } = req.params;
+        await Campgrounds.findByIdAndDelete(id);
+        req.flash("success", "Successfully Deleted Campground");
         res.redirect("/campgrounds");
-    });
-});
+    })
+);
 
-//**                COMMENTS
+//**                Reviews
 
-router.post("/campground/:id/comment", isLoggedIn, (req, res) => {
-    Campgrounds.findById(req.params.id, (err, campground) => {
-        if (err) {
-            console.log(err);
-        } else {
-            var newComment = {
-                text: req.body.comment,
-                rating: req.body.star
-            };
-            Comment.create(newComment, (err, comment) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    comment.author.id = req.user._id;
-                    comment.author.username = req.user.username;
-                    comment.save();
-                    campground.comments.push(comment);
-                    campground.ratingCount += 1;
-                    campground.ratingNumber = campground.ratingNumber + Number(req.body.star);
-                    campground.hasRated.push(req.user._id);
-                    campground.save();
-                    res.redirect("/campground/" + campground._id);
-                }
-            });
-        }
-    });
-});
+router.post(
+    "/:id/reviews",
+    isLoggedIn,
+    validateReview,
+    catchAsync(async (req, res) => {
+        const { id } = req.params;
+        const campground = await Campgrounds.findById(id);
+        const review = new Review(req.body.review);
+        campground.reviews.push(review);
+        campground.rating += review.rating;
+        review.author = req.user._id;
+        await review.save();
+        await campground.save();
+        req.flash("success", "Created New Review!");
+        res.redirect(`/campgrounds/${campground._id}`);
+    })
+);
 
-router.delete("/campground/:id/comment/:uid", isLoggedIn, (req, res) => {
-    if (req.params.uid.toString() == req.user._id.toString()) {
-        Campgrounds.findById(req.params.id, (err, campground) => {
-            if (err) {
-                req.flash("error", "Please Try Again!");
-                res.redirect("back");
-            } else {
-                Comment.findOneAndRemove({
-                    author: {
-                        id: req.user._id,
-                        username: req.user.username
-                    }
-                }, (err, comment) => {
-                    if (err) {
-                        req.flash("error", "Please Try Again!");
-                        res.redirect("back");
-                    } else {
-                        campground.comments.pull(comment);
-                        campground.ratingCount -= 1;
-                        campground.ratingNumber -= Number(comment.rating);
-                        campground.hasRated.pull(req.user._id);
-                        campground.save();
-                        req.flash("success", "Deleted Review");
-                        res.redirect("/campground/" + req.params.id);
-                    }
-                });
-            }
+//**                Delete Review
+
+router.delete(
+    "/:id/reviews/:rId",
+    isLoggedIn,
+    catchAsync(async (req, res) => {
+        const { id, rId } = req.params;
+        const review = await Review.findByIdAndDelete(rId);
+        await Campgrounds.findByIdAndUpdate(id, {
+            $pull: { reviews: rId },
+            $inc: { rating: -Number(review.rating) },
         });
-    } else {
-        res.redirect("back");
-    }
-});
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.flash("error", "Please Login First!");
-    res.redirect("/login");
-};
+        req.flash("success", "Deleted Review");
+        res.redirect(`/campgrounds/${id}`);
+    })
+);
 
-function checkCampgroundOwnership(req, res, next) {
-    if (req.isAuthenticated()) {
-        Campgrounds.findById(req.params.id, (err, foundCampground) => {
-            if (err) {
-                req.flash("error", "Error! Please Try Again");
-                res.redirect('back');
-            } else {
-                if (foundCampground.author.id.equals(req.user._id)) {
-                    next();
-                } else {
-                    req.flash("error", "Unauthorised Request!");
-                    res.redirect("back");
-                }
-            }
-        });
-    } else {
-        req.flash("error", "Please Login First!");
-        res.redirect("/login");
-    }
-};
+//**                Like Campground
+
+router.post(
+    "/:id/like/:uId",
+    isLoggedIn,
+    catchAsync(async (req, res) => {
+        const { uId, id } = req.params;
+        const user = await User.findById(uId);
+        const campground = await Campgrounds.findById(id);
+        user.likes.addToSet(campground._id);
+        await user.save();
+        res.send("L");
+    })
+);
+
+//**                Unlike Campground
+
+router.post(
+    "/:id/unlike/:uId",
+    isLoggedIn,
+    catchAsync(async (req, res) => {
+        const { uId, id } = req.params;
+        const user = await User.findById(uId);
+        const campground = await Campgrounds.findById(id);
+        user.likes.pull(campground._id);
+        await user.save();
+        res.send("U");
+    })
+);
 
 module.exports = router;

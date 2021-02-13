@@ -1,0 +1,103 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/min/campgrounds.css" />
+<div id="map" class="mb-3" style="width: 100%; height: 70vh;"></div>
+<%- include('../partials/flash') %>
+<div class="container">
+  <div class="row d-flex flex-wrap">
+  <div id="scrollDown" class="scrollDown"></div>
+
+    <% campgrounds.forEach(function(campground){ %>
+    <div class="col-sm-12 col-md-6 col-lg-4 pb-5 indexCards">
+      <div class="card thumbnail shadow border-0 mt-4">
+        <a href="/campgrounds/<%= campground._id %>">
+          <img src="<%= campground.images[0].preview %>" alt="<%= campground.name %> " class="img-fluid rounded" />
+        </a>
+
+        <% if(campground.price>= 40){ %>
+        <% var rate="$$$" %>
+        <% } else if (campground.price>= 20){ %>
+        <% var rate="$$" %>
+        <% } else { %>
+        <% var rate="$" %>
+        <% } %>
+
+        <div class="card-body">
+          <h6 class="card-title text-capitalize fw-normal">
+            <% if(currentUser){ %>
+              <% if(currentUser.likes.includes(campground._id.toString())){ %>
+              <a class="fs-2" href="/campgrounds/<%= campground._id %>">
+                <%= campground.name %>
+              </a>
+              <i class="fa fa-heart icon" id="icons" campgroundId="<%= campground._id %>" aria-hidden="true"></i>
+              <span class="float-end text-muted">
+                <%= rate %>
+              </span>
+              <% } else{ %>
+              <a class="fs-2" href="/campgrounds/<%= campground._id %>">
+                <%= campground.name %>
+              </a>
+              <i class="fa fa-heart-o icon-o" id="icons" campgroundId="<%= campground._id %>" aria-hidden="true"></i>
+              <span class="float-end text-muted">
+                <%= rate %>
+              </span>
+              <% } %>
+            <% } else{ %>
+            <a class="fs-2" href="/campgrounds/<%= campground._id %>">
+              <%= campground.name %>
+            </a>
+            <span class="float-end text-muted">
+              <%= rate %>
+            </span>
+            <% } %>
+          </h6>
+
+          <div class="card-subtitle d-flex align-items-center">
+            <% if(campground.reviews.length){ %>
+
+            <% if(campground.reviews.length==1){ %>
+            <span class="text-muted fs-6">
+              1 review
+            </span>
+            <% } else { %>
+            <span class="text-muted fs-6">
+              <%= campground.reviews.length %> reviews
+            </span>
+            <% } %>
+
+            <div class="Stars ms-2" style="--rating: <%= campground.rating/campground.reviews.length || 0 %> ;"
+              aria-label="Rating of the Campground"></div>
+            <% } else { %>
+            <spam class="text-muted">0 Reviews </spam>
+            <% } %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+  ScrollReveal().reveal(".indexCards", {
+    interval: 100,
+    mobile: true,
+    viewFactor: 0.5,
+  });
+</script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+<script>
+  const mapToken = "<%- process.env.MAPBOX_TOKEN%>";
+  const campgrounds = {
+    features: <%-JSON.stringify(campgrounds) %>
+  };
+</script>
+<script src="/scripts/clusterMap.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(function() {
+      document.getElementById("scrollDown").style.display="none"
+    }, 2500);
+  });
+</script>

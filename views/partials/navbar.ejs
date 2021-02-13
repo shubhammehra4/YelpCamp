@@ -1,0 +1,52 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">YelpCamp</a>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/campgrounds">Campgrounds</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/campgrounds/new">Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-5 pe-2">
+                <% if(!currentUser){ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Register
+                    </a>
+                </li>
+                <% } else{ %>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" style="cursor: pointer;">@<%= currentUser.username %></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <h6 class="dropdown-header">
+                            <%= currentUser.name %>
+                        </h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/profile/@<%= currentUser.username %> ">
+                            <i class="fa fa-user" aria-hidden="true"></i> Profile
+                        </a>
+                        <a class="dropdown-item" href="/logout">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Log out
+                        </a>
+                    </div>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

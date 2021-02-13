@@ -1,26 +1,57 @@
 body {
     background-color: black;
+    margin: 0;
 }
 
 #landing-header {
     z-index: 1;
     position: relative;
     text-align: center;
-    padding-top: 40vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#landing-header {
+.slide {
     color: white;
     opacity: 0;
     margin-top: 100px;
     animation: 1s slidecontent 1s forwards;
-    font-family: 'Open-sans', sans-serif;
+    font-family: "Open-sans", sans-serif;
 }
 
-#landing-header h1 {
+.slide h1 {
+    font-size: 4rem;
     text-shadow: 1px 1px 2px black;
     font-family: "Quicksand", sans-serif;
     font-weight: 800;
+}
+
+@media only screen and (max-width: 750px) {
+    .slide h1 {
+        font-size: 3rem;
+    }
+}
+
+.btn {
+    padding: 10px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px black;
+    transition: all 0.2s ease-out;
+}
+.btn:hover {
+    box-shadow: none;
+}
+.btn-success {
+    background-color: rgb(0, 151, 0);
+}
+.btn-primary {
+    background-color: rgb(0, 0, 201);
 }
 
 @keyframes slidecontent {

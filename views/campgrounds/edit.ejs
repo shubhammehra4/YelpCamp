@@ -1,0 +1,126 @@
+<% layout('layouts/boilerplate') %>
+<div class="container p-4">
+  <h1 class="text-center">Edit <%= campground.name %>
+  </h1>
+</div>
+<div class="container">
+  <form action="/campgrounds/<%= campground._id %>/edit?_method=PUT" method="post" class="needs-validation"
+    enctype="multipart/form-data" novalidate>
+    <div class="form-group">
+      <label>Name<span class="red">*</span></label>
+      <input class="form-control" type="text" placeholder="Name" name="campground[name]" value="<%= campground.name %>"
+        minlength="3" required>
+      <div class="invalid-feedback">
+        Provide a Valid Campground Name
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Add Images</label>
+      <input class="form-control" type="file" placeholder="Image" name="images" accept="image/*" multiple>
+    </div>
+    <div class="form-group">
+      <label>Description<span class="red">*</span></label>
+      <textarea class="form-control" name="campground[description]" placeholder="Description" minlength="3" cols="5"
+        rows="2" required><%= campground.description %></textarea>
+      <div class="invalid-feedback">
+        Provide a Valid Description
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Price<span class="red">*</span></label>
+      <div class="input-group">
+        <span class="input-group-text" id="price-label">$</span>
+        <input type="number" class="form-control" placeholder="1.00" name="campground[price]" min="1"
+          value="<%= campground.price %>" required>
+        <div class="invalid-feedback">
+          Provide a Price.
+        </div>
+      </div>
+      <span class="float-end text-muted">*$/night</span>
+    </div>
+    <div class="form-group">
+      <label>Location<span class="red">*</span></label>
+      <input class="form-control" type="text" placeholder="Yosemite National Park, CA" name="campground[location]"
+        minlength="3" required value="<%= campground.location %>">
+      <div class="invalid-feedback">
+        Provide a Valid Location.
+      </div>
+    </div>
+    <label>Best Time to Visit</label>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-6">
+          <input class="form-control" list="months" placeholder="Start" name="campground[startMonth]"
+            value="<%= campground.startMonth %> ">
+        </div>
+        <div class="col-6">
+          <input class="form-control" list="months" placeholder="End" name="campground[endMonth]"
+            value="<%= campground.endMonth %> ">
+        </div>
+        <datalist id="months">
+          <option value="January">
+          <option value="February">
+          <option value="March">
+          <option value="April">
+          <option value="May">
+          <option value="June">
+          <option value="July">
+          <option value="August">
+          <option value="September">
+          <option value="October">
+          <option value="November">
+          <option value="December">
+        </datalist>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Amenities</label>
+      <input class="form-control" type="text" placeholder="Example: Boating, Fishing, Wi-fi"
+        name="campground[facilities]" value="<%= campground.facilities %>">
+      <small class="text-muted pull-right">separated by commas</small>
+    </div>
+    <div class="mb-3">
+      <h6 style="font-weight: 400;">Delete</h6>
+      <% campground.images.forEach(function(image, i) { %>
+
+      <label for="image-<%= i %>"><img src="<%= image.thumbnail %>" alt="deleteImage"></label>
+      <div class="form-check-inline">
+        <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= image.filename %>">
+      </div>
+
+
+      <% }) %>
+    </div>
+    <div class="form-group text-center mt-4 mb-3">
+      <button class="btn btn-success w-100">Update</button>
+    </div>
+  </form>
+</div>
+<style>
+  form {
+    width: 60%;
+    margin: auto;
+  }
+
+  @media only screen and (max-width: 990px) {
+    form {
+      width: 80%;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
+<script src="/scripts/formValidation.js"></script>
