@@ -1,13 +1,38 @@
 const ExpressError = require("../utils/ExpressError"),
-    Joi = require("joi");
+    sanitizeHTML = require("sanitize-html"),
+    BaseJoi = require("joi");
+
+const extension = (joi) => ({
+    type: "string",
+    base: joi.string(),
+    messages: {
+        "string.escapeHTML": "{{#label}} must not include HTML!",
+    },
+    rules: {
+        escapeHTML: {
+            validate(value, helpers) {
+                const clean = sanitizeHTML(value, {
+                    allowedTags: [],
+                    allowedAttributes: {},
+                });
+                if (clean !== value)
+                    return helpers.error("string.escapeHTML", { value });
+
+                return clean;
+            },
+        },
+    },
+});
+
+const Joi = BaseJoi.extend(extension);
 
 exports.validateCampground = (req, res, next) => {
     const campgroundSchema = Joi.object({
         campground: Joi.object({
-            name: Joi.string().required().min(3),
+            name: Joi.string().required().min(3).escapeHTML(),
             price: Joi.number().required().min(1),
-            location: Joi.string().required().min(3),
-            description: Joi.string().required().min(3),
+            location: Joi.string().required().min(3).escapeHTML(),
+            description: Joi.string().required().min(3).escapeHTML(),
             startMonth: Joi.any(),
             endMonth: Joi.any(),
             facilities: Joi.any(),
@@ -26,7 +51,7 @@ exports.validateCampground = (req, res, next) => {
 exports.validateReview = (req, res, next) => {
     const reviewSchema = Joi.object({
         review: Joi.object({
-            text: Joi.string().required().min(3),
+            text: Joi.string().required().min(3).escapeHTML(),
             rating: Joi.number().required().min(1).max(5),
         }).required(),
     });
