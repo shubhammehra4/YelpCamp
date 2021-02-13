@@ -5,7 +5,7 @@
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 
-<link rel="stylesheet" href="/stylesheets/campgroundshow.css">
+<link rel="stylesheet" href="/stylesheets/min/campgroundshow.css">
 <div class="mt-3 mx-auto p-3 w-100" style="max-width: 1600px;">
     <div class="row">
         <div class="col-md-3">
@@ -75,8 +75,8 @@
                     <div class="carousel-inner">
                         <% campground.images.forEach((image, index) => { %>
                         <div class="carousel-item <%= index===0? 'active' : '' %>">
-                            <img src="<%= image.url %>" class="d-block w-100 img-fluid img-responsive rounded" style="max-height: 85vh;"
-                                alt="CampgroundCarousel">
+                            <img src="<%= image.url %>" class="d-block w-100 img-fluid img-responsive rounded"
+                                style="max-height: 85vh;" alt="CampgroundCarousel">
                         </div>
                         <% }) %>
                     </div>
@@ -92,9 +92,6 @@
                     <% } %>
 
                 </div>
-                <!-- <%# campground.images.forEach(image => { %>
-                <img class="card-img-top img-fluid img-responsive rounded" src="<%# image.url %>">
-                <%# }) %> -->
                 <div class="card-body py-2 px-3">
                     <h4 class="float-end">
                         $<%= campground.price %>
@@ -154,7 +151,6 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLongTitle">Review -
                                     <strong><%= campground.name %></strong>
-
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -205,7 +201,6 @@
                             <i class="fa fa-star-o"></i>
                             <% } %>
                             <% } %>
-
                         </strong>
 
                         <% var now = new Date(); %>
