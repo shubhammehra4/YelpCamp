@@ -12,11 +12,13 @@
 <body>
     <link rel="stylesheet" href="/stylesheets/min/landing.css">
     <div id="landing-header">
-        <h1> Welcome to YelpCamp!</h1>
-        <a href="/campgrounds" class="btn btn-success">View all Campgrounds</a>
-        <% if(!currentUser){ %>
-        <a href="/login" class="btn btn-primary">Log In</a>
-        <% } %>
+        <div class="slide">
+            <h1> Welcome to YelpCamp!</h1>
+            <a href="/campgrounds" class="btn btn-success">View all Campgrounds</a>
+            <% if(!currentUser){ %>
+            <a href="/login" class="btn btn-primary">Log In</a>
+            <% } %>
+        </div>
     </div>
 
     <ul class="slideshow">

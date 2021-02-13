@@ -1,15 +1,20 @@
 body {
     background-color: black;
+    margin: 0;
 }
 
 #landing-header {
     z-index: 1;
     position: relative;
     text-align: center;
-    padding-top: 40vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#landing-header {
+.slide {
     color: white;
     opacity: 0;
     margin-top: 100px;
@@ -17,7 +22,7 @@ body {
     font-family: "Open-sans", sans-serif;
 }
 
-#landing-header h1 {
+.slide h1 {
     font-size: 3rem;
     text-shadow: 1px 1px 2px black;
     font-family: "Quicksand", sans-serif;
@@ -37,7 +42,7 @@ body {
     box-shadow: none;
 }
 .btn-success {
-    background-color: rgb(0, 172, 0);
+    background-color: rgb(0, 151, 0);
 }
 .btn-primary {
     background-color: rgb(0, 0, 201);
