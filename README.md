@@ -1,4 +1,4 @@
-# YelpCamp ![Logo](https://github.com/shubhammehra4/YelpCamp/blob/master/public/assets/tent.png?raw=true)
+# YelpCamp ![Logo](https://github.com/shubhammehra4/YelpCamp/blob/master/public/assets/tent.png?raw=true=50px)
 
 **YelpCamp** is a Campground Reviewing Website. Users can create their campgrounds or review others' campgrounds. To get started, simply **[Register](https://warm-springs-01014.herokuapp.com/register)**.
 
