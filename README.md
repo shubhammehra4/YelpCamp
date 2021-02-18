@@ -3,6 +3,9 @@
 **YelpCamp** is a Campground Reviewing Website. Users can create their campgrounds or review others' campgrounds. To get started, simply **[Register](https://warm-springs-01014.herokuapp.com/register)**.
 
 **Live Demo** :- [View](https://warm-springs-01014.herokuapp.com)
+<img alt="Preview" src="https://github.com/shubhammehra4/YelpCamp/blob/master/preview/index.png?raw=true" />
+<img alt="Landing" src="https://github.com/shubhammehra4/YelpCamp/blob/master/preview/landing.png?raw=true" />
+
 ## Stack
 - Nodejs, Express
 - MongoDB
