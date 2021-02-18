@@ -4,7 +4,7 @@
 
 **Live Demo** :- [View](https://warm-springs-01014.herokuapp.com)
 <img alt="Preview" src="https://github.com/shubhammehra4/YelpCamp/blob/master/preview/index.png?raw=true" />
-<img alt="Landing" src="https://github.com/shubhammehra4/YelpCamp/blob/master/preview/landing.png?raw=true" />
+<img alt="Landing" src="https://github.com/shubhammehra4/YelpCamp/blob/master/preview/landing.png?raw=true" width="250" />
 
 ## Stack
 - Nodejs, Express
