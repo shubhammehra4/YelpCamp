@@ -45,6 +45,6 @@
         "sanitize-html": "^2.3.2"
     },
     "devDependencies": {
-        "nodemon": "^2.0.7"
+        "nodemon": "^2.0.15"
     }
 }
