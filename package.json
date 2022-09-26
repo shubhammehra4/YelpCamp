@@ -33,7 +33,7 @@
         "express-mongo-sanitize": "^2.0.2",
         "express-session": "^1.17.1",
         "helmet": "^4.4.1",
-        "joi": "^17.4.0",
+        "joi": "^17.6.1",
         "method-override": "^3.0.0",
         "mongoose": "^5.11.17",
         "morgan": "^1.10.0",
